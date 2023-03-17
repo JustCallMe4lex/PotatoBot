@@ -9,25 +9,29 @@ class System(commands.Cog):
 
     @commands.group(invoke_without_command=True)
     @commands.has_permissions(administrator=True)
-    async def greet_settings(self, ctx):
-        embed = discord.Embed(title="Greeting System Setup",
-                              description="Tweak and adjust the welcome system here!",
+    async def settings(self, ctx):
+        embed = discord.Embed(title="System Setup",
+                              description="Tweak and adjust the server settings here!",
                               color=discord.Colour.random())
 
         fields = [
             ("Auto Role", "Set an automatic role so when a user joins, they will receive it automatically.", False),
-            ("Message", "Set a message to be included in the welcome card.", False),
-            ("Channel", "Set a channel for the welcome card to be sent in.", False),
-            ("Image URL", "Set an image or gif url to be sent with the welcome card.", False)]
+            ("Welcome Message", "Set a message to be included in the welcome card.", False),
+            ("Welcome Channel", "Set a channel for the welcome card to be sent in.", False),
+            ("Image URL", "Set an image or gif url to be sent with the welcome card.", False),
+            ("Server Prefix", "The default prefix is `p!`. You can change it if you wish", False),
+            ("Mute Role", "Set a mute role to mute members.", False),
+            ("Log Channel", "Set your log channel to send admin logs to.", False),
+            ("Announcement Channel", "Set your announcement channel to send announcements to.", False),]
 
         for name, value, inline in fields:
             embed.add_field(name=name, value=value, inline=inline)
 
         await ctx.send(embed=embed)
 
-    @greet_settings.command()
+    @settings.command()
     @commands.has_permissions(administrator=True)
-    async def autorole(self, ctx, role: discord.Role):
+    async def setautorole(self, ctx, role: discord.Role):
         with open("cogs/json/welcome.json", "r") as f:
             data = json.load(f)
 
@@ -43,7 +47,7 @@ class System(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @autorole.error
+    @setautorole.error
     async def autorole_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
@@ -54,9 +58,9 @@ class System(commands.Cog):
             await ctx.send(embed=embed)
 
 
-    @greet_settings.command()
+    @settings.command()
     @commands.has_permissions(administrator=True)
-    async def message(self, ctx, *, message):
+    async def setwelcomemessage(self, ctx, *, message):
         if 10 < len(message) <= 200:
             with open("cogs/json/welcome.json", "r") as f:
                 data = json.load(f)
@@ -80,8 +84,8 @@ class System(commands.Cog):
 
             await ctx.send(embed=embed)
 
-    @message.error
-    async def message_error(self, ctx, error):
+    @setwelcomemessage.error
+    async def setwelcomemessage_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
             embed.add_field(name="Welcome Message Set Failed!",
@@ -90,9 +94,9 @@ class System(commands.Cog):
 
             await ctx.send(embed=embed)
 
-    @greet_settings.command()
+    @settings.command()
     @commands.has_permissions(administrator=True)
-    async def channel(self, ctx, channel: discord.TextChannel):
+    async def setwelcomechannel(self, ctx, channel: discord.TextChannel):
         with open("cogs/json/welcome.json", "r") as f:
             data = json.load(f)
 
@@ -108,8 +112,8 @@ class System(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @channel.error
-    async def channel_error(self, ctx, error):
+    @setwelcomechannel.error
+    async def setwelcomechannel_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
             embed.add_field(name="Channel Set Failed!",
@@ -118,9 +122,9 @@ class System(commands.Cog):
 
             await ctx.send(embed=embed)
 
-    @greet_settings.command()
+    @settings.command()
     @commands.has_permissions(administrator=True)
-    async def imageurl(self, ctx, *, url):
+    async def setimageurl(self, ctx, *, url):
         with open("cogs/json/welcome.json", "r") as f:
             data = json.load(f)
 
@@ -136,8 +140,8 @@ class System(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @imageurl.error
-    async def imageurl_error(self, ctx, error):
+    @setimageurl.error
+    async def setimageurl_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
             embed.add_field(name="Image Set Failed!",
@@ -152,7 +156,7 @@ class System(commands.Cog):
 
         await ctx.send(f"Pong! {bot_latency}ms")
 
-    @commands.command()
+    @settings.command()
     @commands.has_permissions(administrator=True)
     async def change_prefix(self, ctx, *, newprefix: str):
         if 0 < len(newprefix) <= 5:
@@ -189,7 +193,7 @@ class System(commands.Cog):
 
             await ctx.send(embed=embed)
 
-    @commands.command()
+    @settings.command()
     @commands.has_permissions(administrator=True)
     async def setmuterole(self, ctx, role: discord.Role):
         with open("cogs/json/mutes.json", "r") as f:
@@ -213,6 +217,62 @@ class System(commands.Cog):
             embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
             embed.add_field(name="Mute Role Set Failed!",
                             value="Please enter the ID of the role.",
+                            inline=False)
+
+            await ctx.send(embed=embed)
+
+    @settings.command()
+    @commands.has_permissions(administrator=True)
+    async def setlogchannel(self, ctx, channel: discord.TextChannel):
+        with open("cogs/json/logs.json", "r") as f:
+            logs = json.load(f)
+
+        logs[str(ctx.guild.id)] = str(channel.name)
+
+        with open("cogs/json/logs.json", "w") as f:
+            json.dump(logs, f, indent=4)
+
+        embed = discord.Embed(title="Command Success!", color=discord.Color.green())
+        embed.add_field(name="Logs Channel Set!",
+                        value=f"Channel has been changed to `{channel.name}`.",
+                        inline=False)
+
+        await ctx.send(embed=embed)
+
+    @setlogchannel.error
+    async def setlogchannel_error(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
+            embed.add_field(name="Channel Set Failed!",
+                            value="Please enter a channel.",
+                            inline=False)
+
+            await ctx.send(embed=embed)
+
+    @settings.command()
+    @commands.has_permissions(administrator=True)
+    async def setannouncechannel(self, ctx, channel: discord.TextChannel):
+        with open("cogs/json/announcements.json", "r") as f:
+            ann_data = json.load(f)
+
+        ann_data[str(ctx.guild.id)] = str(channel.name)
+
+        with open("cogs/json/welcome.json", "w") as f:
+            json.dump(ann_data, f, indent=4)
+
+        embed = discord.Embed(title="Command Success!", color=discord.Color.green())
+        embed.add_field(name="Announcements Channel Set!",
+                        value=f"Channel has been changed to `{channel.name}`.",
+                        inline=False)
+
+        await ctx.send(embed=embed)
+
+    @setannouncechannel.error
+    async def setannouncechannel_error(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
+            embed.add_field(name="Channel Set Failed!",
+                            value="Please enter a channel.",
                             inline=False)
 
             await ctx.send(embed=embed)
