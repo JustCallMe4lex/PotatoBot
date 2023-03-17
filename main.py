@@ -1,6 +1,7 @@
 from itertools import cycle
 
 import os
+import json
 import asyncio
 import discord
 from discord.ext import commands, tasks
@@ -11,7 +12,9 @@ with open("utils/token.0", "r", encoding="utf-8") as tf:
 with open("utils/owner_ids.0", "r", encoding="utf-8") as tf:
     OWNER_IDS = tf.read()
 
+# Cycle Status
 bot_status = cycle(["p!help for Commands", "Welcome to the server!"])
+
 
 # Main Bot
 client = commands.Bot(
@@ -28,6 +31,30 @@ async def change_status():
 async def on_ready():
     print("PotatoBot is connected and ready!")
     change_status.start()
+
+@client.event
+async def on_guild_join(guild):
+    with open("cogs/json/welcome.json", "r") as f:
+        data = json.load(f)
+
+    data[str(guild.id)] = {}
+    data[str(guild.id)]['Channel'] = None
+    data[str(guild.id)]['Message'] = None
+    data[str(guild.id)]['AutoRole'] = None
+    data[str(guild.id)]['ImageUrl'] = None
+
+    with open("cogs/json/welcome.json", "w") as f:
+        json.dump(data, f, indent=4)
+
+@client.event
+async def on_guild_remove(guild):
+    with open("cogs/json/welcome.json", "r") as f:
+        data = json.load(f)
+
+    data.pop(str(guild.id))
+
+    with open("cogs/json/welcome.json", "w") as f:
+        json.dump(data, f, indent=4)
 
 async def load():
     for filename in os.listdir("./cogs"):
