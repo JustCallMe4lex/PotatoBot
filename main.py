@@ -1,12 +1,12 @@
 from itertools import cycle
-
 import os
 import json
 import asyncio
+
 import discord
 from discord.ext import commands, tasks
 
-# Token readers
+# File readers
 with open("utils/token.0", "r", encoding="utf-8") as tf:
     TOKEN = tf.read()
 with open("utils/owner_ids.0", "r", encoding="utf-8") as tf:

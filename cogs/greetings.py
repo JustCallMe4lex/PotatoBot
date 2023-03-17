@@ -13,7 +13,7 @@ class Greetings(commands.Cog):
             data = json.load(f)
 
         embed = discord.Embed(title=f"Welcome to the {member.guild.name} Server!",
-                              description=f"You are the {member.guild.member_count} to hop in!",
+                              description=f"You are member #{member.guild.member_count}!",
                               color=discord.Colour.random())
 
         embed.add_field(name="A message from the admins: ", value=f"{data[str(member.guild.id)]['Message']}", inline=False)
@@ -49,9 +49,6 @@ class Greetings(commands.Cog):
 
     @greetings.command()
     async def autorole(self, ctx, role: discord.Role):
-        if role == None:
-            await ctx.send("Please input the ID of the role.")
-
         with open("cogs/json/welcome.json", "r") as f:
             data = json.load(f)
 
@@ -64,9 +61,6 @@ class Greetings(commands.Cog):
 
     @greetings.command()
     async def message(self, ctx, *, message):
-        if message == None:
-            await ctx.send("Please input the message for the welcome card.")
-
         with open("cogs/json/welcome.json", "r") as f:
             data = json.load(f)
 
@@ -79,9 +73,6 @@ class Greetings(commands.Cog):
 
     @greetings.command()
     async def channel(self, ctx, channel: discord.TextChannel):
-        if channel == None:
-            await ctx.send("Please input the ID of the channel.")
-
         with open("cogs/json/welcome.json", "r") as f:
             data = json.load(f)
 
@@ -94,9 +85,6 @@ class Greetings(commands.Cog):
 
     @greetings.command()
     async def imageurl(self, ctx, *, url):
-        if url == None:
-            await ctx.send("Please input the URL of the image for the welcome card.")
-
         with open("cogs/json/welcome.json", "r") as f:
             data = json.load(f)
 
