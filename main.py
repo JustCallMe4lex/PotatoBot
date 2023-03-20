@@ -73,23 +73,23 @@ async def on_guild_join(guild):
     with open("cogs/json/mutes.json", "w") as f:
         json.dump(mutes, f, indent=4)
 
-    # Adding Guild to Announcements Data
-    with open("cogs/json/announcements.json", "r") as f:
-        ann_data = json.load(f)
-
-    ann_data[str(guild.id)] = None
-
-    with open("cogs/json/announcements.json", "w") as f:
-        json.dump(ann_data, f, indent=4)
-
-    # Adding Guild to Logs Data
-    with open("cogs/json/logs.json", "r") as f:
-        logs = json.load(f)
-
-    logs[str(guild.id)] = None
-
-    with open("cogs/json/logs.json", "w") as f:
-        json.dump(logs, f, indent=4)
+    # # Adding Guild to Announcements Data
+    # with open("cogs/json/announcements.json", "r") as f:
+    #     ann_data = json.load(f)
+    #
+    # ann_data[str(guild.id)] = None
+    #
+    # with open("cogs/json/announcements.json", "w") as f:
+    #     json.dump(ann_data, f, indent=4)
+    #
+    # # Adding Guild to Logs Data
+    # with open("cogs/json/logs.json", "r") as f:
+    #     logs = json.load(f)
+    #
+    # logs[str(guild.id)] = None
+    #
+    # with open("cogs/json/logs.json", "w") as f:
+    #     json.dump(logs, f, indent=4)
 
 @client.event
 async def on_guild_remove(guild):
@@ -120,23 +120,23 @@ async def on_guild_remove(guild):
     with open("cogs/json/mutes.json", "w") as f:
         json.dump(mutes, f, indent=4)
 
-    # Removing Announcements Data
-    with open("cogs/json/announcements.json", "r") as f:
-        ann_data = json.load(f)
-
-    ann_data.pop(str(guild.id))
-
-    with open("cogs/json/announcements.json", "w") as f:
-        json.dump(ann_data, f, indent=4)
-
-    # Removing Logs Data
-    with open("cogs/json/logs.json", "r") as f:
-        logs = json.load(f)
-
-    logs.pop(str(guild.id))
-
-    with open("cogs/json/logs.json", "w") as f:
-        json.dump(logs, f, indent=4)
+    # # Removing Announcements Data
+    # with open("cogs/json/announcements.json", "r") as f:
+    #     ann_data = json.load(f)
+    #
+    # ann_data.pop(str(guild.id))
+    #
+    # with open("cogs/json/announcements.json", "w") as f:
+    #     json.dump(ann_data, f, indent=4)
+    #
+    # # Removing Logs Data
+    # with open("cogs/json/logs.json", "r") as f:
+    #     logs = json.load(f)
+    #
+    # logs.pop(str(guild.id))
+    #
+    # with open("cogs/json/logs.json", "w") as f:
+    #     json.dump(logs, f, indent=4)
 
 # Loading Cogs
 async def load():
