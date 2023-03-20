@@ -52,7 +52,7 @@ class Moderation(commands.Cog):
         embed = discord.Embed(title="Command Success!", color=discord.Color.green())
 
         fields = [
-            ("Member Banned!", f"{member.mention} has been banned from the server by {ctx.author.mention}.", "False"),
+            ("Member Banned!", f"{member.mention} has been banned from the server by {ctx.author.mention}.", False),
             ("Reason:", reason, False)]
 
         for name, value, inline in fields:
