@@ -31,7 +31,7 @@ class Economy(commands.Cog):
         embed = discord.Embed(title=f"{member.name}'s Current Balance",
                               description=f"The amount of coins on {member.name}.",
                               color=discord.Color.random())
-        embed.add_field(name="Coins:", value=f"{user_eco[str(member.id)]['Balance']} coins", inline=False)
+        embed.add_field(name="Coins:", value=f"{user_eco[str(member.id)]['Balance']}", inline=False)
         embed.set_footer(text=f"Want to add more coins to your pocket? Use economy commands like {prefix[str(ctx.guild.id)]}daily or {prefix[str(ctx.guild.id)]}work.")
         embed.set_thumbnail(url=member.avatar)
 
@@ -60,7 +60,7 @@ class Economy(commands.Cog):
         embed = discord.Embed(title="Work Is Done!",
                               description="After a tiring shift, here's what you have garnered!",
                               color=discord.Color.random())
-        embed.add_field(name="Earnings:", value=f"{amount} coins!", inline=False)
+        embed.add_field(name="Earnings:", value=f"{amount} coins", inline=False)
         embed.add_field(name="New Balance:", value=f"{user_eco[str(ctx.author.id)]['Balance']} coins", inline=False)
         embed.set_thumbnail(url=ctx.author.avatar)
 
@@ -100,7 +100,7 @@ class Economy(commands.Cog):
         embed = discord.Embed(title="Daily Coins!",
                               description="Here's your daily bonus!",
                               color=discord.Color.random())
-        embed.add_field(name="Earnings:", value=f"{amount} coins!", inline=False)
+        embed.add_field(name="Earnings:", value=f"{amount} coins", inline=False)
         embed.add_field(name="New Balance:", value=f"{user_eco[str(ctx.author.id)]['Balance']} coins", inline=False)
         embed.set_thumbnail(url=ctx.author.avatar)
 
