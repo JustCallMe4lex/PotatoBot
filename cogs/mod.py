@@ -40,6 +40,7 @@ class Moderation(commands.Cog):
             embed.add_field(name="Kick Member Failed!",
                             value="Please enter the member you wish to kick or enter a reason why.",
                             inline=False)
+            embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
 
             await ctx.send(embed=embed)
 
@@ -66,6 +67,7 @@ class Moderation(commands.Cog):
             embed.add_field(name="Ban Member Failed!",
                             value="Please enter the member you wish to ban or enter a reason why.",
                             inline=False)
+            embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
 
             await ctx.send(embed=embed)
 
@@ -77,7 +79,9 @@ class Moderation(commands.Cog):
         await ctx.guild.unban(user)
 
         embed = discord.Embed(title="Command Success!", color=discord.Color.green())
-        embed.add_field(name="Member Unbanned!", value=f"<@{userId}> has been unbanned from the server by {ctx.author.mention}", inline=False)
+        embed.add_field(name="Member Unbanned!",
+                        value=f"<@{userId}> has been unbanned from the server by {ctx.author.mention}",
+                        inline=False)
 
         await ctx.send(embed=embed)
 
@@ -88,6 +92,7 @@ class Moderation(commands.Cog):
             embed.add_field(name="Ban Member Failed!",
                             value="Please enter the ID of the member you want to unban.",
                             inline=False)
+            embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
 
             await ctx.send(embed=embed)
 
@@ -113,8 +118,9 @@ class Moderation(commands.Cog):
         if isinstance(error, commands.MissingRequiredArgument):
             embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
             embed.add_field(name="Mute Member Failed!",
-                            value="Please enter the member you wish to mute.",
+                            value="Please enter the member you wish to silence.",
                             inline=False)
+            embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
 
             await ctx.send(embed=embed)
 
@@ -142,6 +148,7 @@ class Moderation(commands.Cog):
             embed.add_field(name="Unmute Member Failed!",
                             value="Please enter the member you wish to unmute.",
                             inline=False)
+            embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
 
             await ctx.send(embed=embed)
 
