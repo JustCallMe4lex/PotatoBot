@@ -23,7 +23,8 @@ class Economy(commands.Cog):
 
         if str(member.id) not in user_eco:
             user_eco[str(member.id)] = {}
-            user_eco[str(member.id)]["Balance"] = 100
+            user_eco[str(member.id)]["Balance"] = 0
+            user_eco[str(member.id)]["Bank"] = 0
 
             with open("cogs/json/economy.json", "w") as f:
                 json.dump(user_eco, f, indent=4)
@@ -45,7 +46,8 @@ class Economy(commands.Cog):
 
         if str(ctx.author.id) not in user_eco:
             user_eco[str(ctx.author.id)] = {}
-            user_eco[str(ctx.author.id)]["Balance"] = 100
+            user_eco[str(ctx.author.id)]["Balance"] = 0
+            user_eco[str(ctx.author.id)]["Bank"] = 0
 
             with open("cogs/json/economy.json", "w") as f:
                 json.dump(user_eco, f, indent=4)
@@ -85,7 +87,8 @@ class Economy(commands.Cog):
 
         if str(ctx.author.id) not in user_eco:
             user_eco[str(ctx.author.id)] = {}
-            user_eco[str(ctx.author.id)]["Balance"] = 100
+            user_eco[str(ctx.author.id)]["Balance"] = 0
+            user_eco[str(ctx.author.id)]["Bank"] = 0
 
             with open("cogs/json/economy.json", "w") as f:
                 json.dump(user_eco, f, indent=4)
@@ -116,6 +119,79 @@ class Economy(commands.Cog):
             embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
 
             await ctx.send(embed=embed)
+
+    # @commands.command()
+    # async def slots(self, ctx, coins):
+    #     with open("cogs/json/economy.json", "r") as f:
+    #         user_eco = json.load(f)
+    #
+    #     if str(ctx.author.id) not in user_eco:
+    #         user_eco[str(ctx.author.id)] = {}
+    #         user_eco[str(ctx.author.id)]["Balance"] = 100
+    #         user_eco[str(ctx.author.id)]["Bank"] = 0
+    #
+    #         with open("cogs/json/economy.json", "w") as f:
+    #             json.dump(user_eco, f, indent=4)
+    #
+    #     choices = [":heart:", ":blue_heart:", ":orange_heart:"]
+    #
+    #     slot1 = random.choice(choices)
+    #     slot2 = random.choice(choices)
+    #     slot3 = random.choice(choices)
+    #
+    #     fields = [("Slot 1", f"{slot1}", True),
+    #               ("Slot 2", f"{slot2}", True),
+    #               ("Slot 3", f"{slot3}", True)]
+    #
+    #     if slot1 == slot2 or slot2 == slot3 or slot1 == slot3:
+    #
+    #         embed = discord.Embed(title="Slot Machine!",
+    #                               description="Gamble your coins to double it, triple it or lose it!",
+    #                               color=discord.Color.random())
+    #
+    #         embed.add_field(name="Win!", value=f"You won {coins * 2} coins!", inline=False)
+    #
+    #         for name, value, inline in fields:
+    #             embed.add_field(name=name, value=value, inline=inline)
+    #
+    #         embed.add_field(name="Earnings:", value=f"{coins * 2} coins", inline=False)
+    #         embed.add_field(name="New Balance:", value=f"{user_eco[str(ctx.author.id)]['Balance'] * 2} coins", inline=False)
+    #         embed.set_thumbnail(url=ctx.author.avatar)
+    #
+    #         await ctx.send(embed=embed)
+    #     elif slot1 == slot2 == slot3:
+    #         amount = coins * 3
+    #
+    #         embed = discord.Embed(title="Slot Machine!",
+    #                               description="Gamble your coins to double it, triple it or lose it!",
+    #                               color=discord.Color.random())
+    #
+    #         embed.add_field(name="Big Win!", value=f"You won {amount} coins!", inline=False)
+    #
+    #         for name, value, inline in fields:
+    #             embed.add_field(name=name, value=value, inline=inline)
+    #
+    #         embed.add_field(name="Earnings:", value=f"{amount} coins", inline=False)
+    #         embed.add_field(name="New Balance:", value=f"{user_eco[str(ctx.author.id)]['Balance']} coins", inline=False)
+    #         embed.set_thumbnail(url=ctx.author.avatar)
+    #
+    #         await ctx.send(embed=embed)
+    #     else:
+    #         embed = discord.Embed(title="Slot Machine!",
+    #                               description="Gamble your coins to double it, triple it or lose it!",
+    #                               color=discord.Color.random())
+    #
+    #         embed.add_field(name="Lose!", value=f"You lost {coins} coins!", inline=False)
+    #
+    #         for name, value, inline in fields:
+    #             embed.add_field(name=name, value=value, inline=inline)
+    #
+    #         embed.add_field(name="Lost Coins:", value=f"{coins} coins", inline=False)
+    #         embed.add_field(name="New Balance:", value=f"{user_eco[str(ctx.author.id)]['Balance']} coins", inline=False)
+    #         embed.set_thumbnail(url=ctx.author.avatar)
+    #
+    #         await ctx.send(embed=embed)
+
 
 async def setup(client):
     await client.add_cog(Economy(client))
