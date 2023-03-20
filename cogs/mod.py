@@ -25,7 +25,7 @@ class Moderation(commands.Cog):
 
         embed = discord.Embed(title="Command Success!", color=discord.Color.green())
 
-        fields = [("Member Kicked!", f"{member.mention} has been kicked from the server by {ctx.author.mention}.", "False"),
+        fields = [("Member Kicked!", f"{member.mention} has been kicked from the server by {ctx.author.mention}.", False),
                   ("Reason:", reason, False)]
 
         for name, value, inline in fields:
@@ -80,7 +80,7 @@ class Moderation(commands.Cog):
 
         embed = discord.Embed(title="Command Success!", color=discord.Color.green())
         embed.add_field(name="Member Unbanned!",
-                        value=f"<@{userId}> has been unbanned from the server by {ctx.author.mention}",
+                        value=f"<@{userId}> has been unbanned from the server by {ctx.author.mention}.",
                         inline=False)
 
         await ctx.send(embed=embed)
@@ -108,7 +108,7 @@ class Moderation(commands.Cog):
 
         embed = discord.Embed(title="Command Success!", color=discord.Color.green())
         embed.add_field(name="Member Muted!",
-                        value=f"{member.mention} has been silenced from the server by {ctx.author.mention}",
+                        value=f"{member.mention} has been silenced from the server by {ctx.author.mention}.",
                         inline=False)
 
         await ctx.send(embed=embed)
@@ -136,7 +136,7 @@ class Moderation(commands.Cog):
 
         embed = discord.Embed(title="Command Success!", color=discord.Color.green())
         embed.add_field(name="Member Unmuted!",
-                        value=f"{member.mention} has been unmuted from the server by {ctx.author.mention}",
+                        value=f"{member.mention} has been unmuted from the server by {ctx.author.mention}.",
                         inline=False)
 
         await ctx.send(embed=embed)
