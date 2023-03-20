@@ -21,8 +21,9 @@ class System(commands.Cog):
             ("Image URL", "Set an image or gif url to be sent with the welcome card.", False),
             ("Server Prefix", "The default prefix is `p!`. You can change it if you wish", False),
             ("Mute Role", "Set a mute role to mute members.", False),
-            ("Log Channel", "Set your log channel to send admin logs to.", False),
-            ("Announcement Channel", "Set your announcement channel to send announcements to.", False),]
+            # ("Log Channel", "Set your log channel to send admin logs to.", False),
+            # ("Announcement Channel", "Set your announcement channel to send announcements to.", False)
+        ]
 
         for name, value, inline in fields:
             embed.add_field(name=name, value=value, inline=inline)
@@ -54,6 +55,7 @@ class System(commands.Cog):
             embed.add_field(name="Auto Role Set Failed!",
                             value="Please enter the ID of the role.",
                             inline=False)
+            embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
 
             await ctx.send(embed=embed)
 
@@ -81,6 +83,7 @@ class System(commands.Cog):
             embed.add_field(name="Welcome Message Set Failed!",
                             value="Enter your message between 10 to 200 characters.",
                             inline=False)
+            embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
 
             await ctx.send(embed=embed)
 
@@ -91,6 +94,7 @@ class System(commands.Cog):
             embed.add_field(name="Welcome Message Set Failed!",
                             value="Please enter your desired welcome message.",
                             inline=False)
+            embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
 
             await ctx.send(embed=embed)
 
@@ -119,6 +123,7 @@ class System(commands.Cog):
             embed.add_field(name="Channel Set Failed!",
                             value="Please enter a channel.",
                             inline=False)
+            embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
 
             await ctx.send(embed=embed)
 
@@ -147,6 +152,7 @@ class System(commands.Cog):
             embed.add_field(name="Image Set Failed!",
                             value="Please enter a URL.",
                             inline=False)
+            embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
 
             await ctx.send(embed=embed)
 
@@ -190,6 +196,7 @@ class System(commands.Cog):
             embed.add_field(name="Change Prefix Failed!",
                             value="Please enter a character/s.",
                             inline=False)
+            embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
 
             await ctx.send(embed=embed)
 
@@ -218,64 +225,65 @@ class System(commands.Cog):
             embed.add_field(name="Mute Role Set Failed!",
                             value="Please enter the ID of the role.",
                             inline=False)
+            embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
 
             await ctx.send(embed=embed)
 
-    @settings.command()
-    @commands.has_permissions(administrator=True)
-    async def setlogchannel(self, ctx, channel: discord.TextChannel):
-        with open("cogs/json/logs.json", "r") as f:
-            logs = json.load(f)
-
-        logs[str(ctx.guild.id)] = str(channel.name)
-
-        with open("cogs/json/logs.json", "w") as f:
-            json.dump(logs, f, indent=4)
-
-        embed = discord.Embed(title="Command Success!", color=discord.Color.green())
-        embed.add_field(name="Logs Channel Set!",
-                        value=f"Channel has been changed to `{channel.name}`.",
-                        inline=False)
-
-        await ctx.send(embed=embed)
-
-    @setlogchannel.error
-    async def setlogchannel_error(self, ctx, error):
-        if isinstance(error, commands.MissingRequiredArgument):
-            embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
-            embed.add_field(name="Channel Set Failed!",
-                            value="Please enter a channel.",
-                            inline=False)
-
-            await ctx.send(embed=embed)
-
-    @settings.command()
-    @commands.has_permissions(administrator=True)
-    async def setannouncechannel(self, ctx, channel: discord.TextChannel):
-        with open("cogs/json/announcements.json", "r") as f:
-            ann_data = json.load(f)
-
-        ann_data[str(ctx.guild.id)] = str(channel.name)
-
-        with open("cogs/json/welcome.json", "w") as f:
-            json.dump(ann_data, f, indent=4)
-
-        embed = discord.Embed(title="Command Success!", color=discord.Color.green())
-        embed.add_field(name="Announcements Channel Set!",
-                        value=f"Channel has been changed to `{channel.name}`.",
-                        inline=False)
-
-        await ctx.send(embed=embed)
-
-    @setannouncechannel.error
-    async def setannouncechannel_error(self, ctx, error):
-        if isinstance(error, commands.MissingRequiredArgument):
-            embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
-            embed.add_field(name="Channel Set Failed!",
-                            value="Please enter a channel.",
-                            inline=False)
-
-            await ctx.send(embed=embed)
+    # @settings.command()
+    # @commands.has_permissions(administrator=True)
+    # async def setlogchannel(self, ctx, channel: discord.TextChannel):
+    #     with open("cogs/json/logs.json", "r") as f:
+    #         logs = json.load(f)
+    #
+    #     logs[str(ctx.guild.id)] = str(channel.name)
+    #
+    #     with open("cogs/json/logs.json", "w") as f:
+    #         json.dump(logs, f, indent=4)
+    #
+    #     embed = discord.Embed(title="Command Success!", color=discord.Color.green())
+    #     embed.add_field(name="Logs Channel Set!",
+    #                     value=f"Channel has been changed to `{channel.name}`.",
+    #                     inline=False)
+    #
+    #     await ctx.send(embed=embed)
+    #
+    # @setlogchannel.error
+    # async def setlogchannel_error(self, ctx, error):
+    #     if isinstance(error, commands.MissingRequiredArgument):
+    #         embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
+    #         embed.add_field(name="Channel Set Failed!",
+    #                         value="Please enter a channel.",
+    #                         inline=False)
+    #
+    #         await ctx.send(embed=embed)
+    #
+    # @settings.command()
+    # @commands.has_permissions(administrator=True)
+    # async def setannouncechannel(self, ctx, channel: discord.TextChannel):
+    #     with open("cogs/json/announcements.json", "r") as f:
+    #         ann_data = json.load(f)
+    #
+    #     ann_data[str(ctx.guild.id)] = str(channel.name)
+    #
+    #     with open("cogs/json/welcome.json", "w") as f:
+    #         json.dump(ann_data, f, indent=4)
+    #
+    #     embed = discord.Embed(title="Command Success!", color=discord.Color.green())
+    #     embed.add_field(name="Announcements Channel Set!",
+    #                     value=f"Channel has been changed to `{channel.name}`.",
+    #                     inline=False)
+    #
+    #     await ctx.send(embed=embed)
+    #
+    # @setannouncechannel.error
+    # async def setannouncechannel_error(self, ctx, error):
+    #     if isinstance(error, commands.MissingRequiredArgument):
+    #         embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
+    #         embed.add_field(name="Channel Set Failed!",
+    #                         value="Please enter a channel.",
+    #                         inline=False)
+    #
+    #         await ctx.send(embed=embed)
 
 
 async def setup(client):
