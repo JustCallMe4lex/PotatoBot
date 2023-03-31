@@ -18,7 +18,7 @@ bot_status = cycle(["p!help for Commands", "Welcome to the server!"])
 
 # Grabbing the Server Prefix
 def get_server_prefix(client, message):
-    with open("cogs/json/prefix.json", "r") as f:
+    with open("cogs/jsonfiles/prefix.json", "r") as f:
         prefix = json.load(f)
 
     return prefix[str(message.guild.id)]
@@ -43,7 +43,7 @@ async def on_ready():
 @client.event
 async def on_guild_join(guild):
     # Adding Guild to Welcome Data
-    with open("cogs/json/welcome.json", "r") as f:
+    with open("cogs/jsonfiles/welcome.json", "r") as f:
         data = json.load(f)
 
     data[str(guild.id)] = {}
@@ -52,91 +52,55 @@ async def on_guild_join(guild):
     data[str(guild.id)]['AutoRole'] = None
     data[str(guild.id)]['ImageUrl'] = None
 
-    with open("cogs/json/welcome.json", "w") as f:
+    with open("cogs/jsonfiles/welcome.json", "w") as f:
         json.dump(data, f, indent=4)
 
     # Adding Guild to Prefix Data
-    with open("cogs/json/prefix.json.", "r") as f:
+    with open("cogs/jsonfiles/prefix.json.", "r") as f:
         prefix = json.load(f)
 
     prefix[str(guild.id)] = "p!"
 
-    with open("cogs/json/prefix.json", "w") as f:
+    with open("cogs/jsonfiles/prefix.json", "w") as f:
         json.dump(prefix, f, indent=4)
 
     # Adding Guild to Mutes Data
-    with open("cogs/json/mutes.json", "r") as f:
+    with open("cogs/jsonfiles/mutes.json", "r") as f:
         mutes = json.load(f)
 
     mutes[str(guild.id)] = None
 
-    with open("cogs/json/mutes.json", "w") as f:
+    with open("cogs/jsonfiles/mutes.json", "w") as f:
         json.dump(mutes, f, indent=4)
-
-    # # Adding Guild to Announcements Data
-    # with open("cogs/json/announcements.json", "r") as f:
-    #     ann_data = json.load(f)
-    #
-    # ann_data[str(guild.id)] = None
-    #
-    # with open("cogs/json/announcements.json", "w") as f:
-    #     json.dump(ann_data, f, indent=4)
-    #
-    # # Adding Guild to Logs Data
-    # with open("cogs/json/logs.json", "r") as f:
-    #     logs = json.load(f)
-    #
-    # logs[str(guild.id)] = None
-    #
-    # with open("cogs/json/logs.json", "w") as f:
-    #     json.dump(logs, f, indent=4)
 
 @client.event
 async def on_guild_remove(guild):
     # Removing Welcome Data
-    with open("cogs/json/welcome.json", "r") as f:
+    with open("cogs/jsonfiles/welcome.json", "r") as f:
         data = json.load(f)
 
     data.pop(str(guild.id))
 
-    with open("cogs/json/welcome.json", "w") as f:
+    with open("cogs/jsonfiles/welcome.json", "w") as f:
         json.dump(data, f, indent=4)
 
     # Removing Prefix Data
-    with open("cogs/json/prefix.json.", "r") as f:
+    with open("cogs/jsonfiles/prefix.json.", "r") as f:
         prefix = json.load(f)
 
     prefix.pop(str(guild.id))
 
-    with open("cogs/json/prefix.json", "w") as f:
+    with open("cogs/jsonfiles/prefix.json", "w") as f:
         json.dump(prefix, f, indent=4)
 
     # Removing Mutes Data
-    with open("cogs/json/mutes.json", "r") as f:
+    with open("cogs/jsonfiles/mutes.json", "r") as f:
         mutes = json.load(f)
 
     mutes.pop(str(guild.id))
 
-    with open("cogs/json/mutes.json", "w") as f:
+    with open("cogs/jsonfiles/mutes.json", "w") as f:
         json.dump(mutes, f, indent=4)
-
-    # # Removing Announcements Data
-    # with open("cogs/json/announcements.json", "r") as f:
-    #     ann_data = json.load(f)
-    #
-    # ann_data.pop(str(guild.id))
-    #
-    # with open("cogs/json/announcements.json", "w") as f:
-    #     json.dump(ann_data, f, indent=4)
-    #
-    # # Removing Logs Data
-    # with open("cogs/json/logs.json", "r") as f:
-    #     logs = json.load(f)
-    #
-    # logs.pop(str(guild.id))
-    #
-    # with open("cogs/json/logs.json", "w") as f:
-    #     json.dump(logs, f, indent=4)
 
 # Loading Cogs
 async def load():

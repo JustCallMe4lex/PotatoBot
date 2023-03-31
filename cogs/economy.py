@@ -10,10 +10,10 @@ class Economy(commands.Cog):
 
     @commands.command(aliases=["bal"])
     async def balance(self, ctx, member: discord.Member = None):
-        with open("cogs/json/economy.json", "r") as f:
+        with open("cogs/jsonfiles/economy.json", "r") as f:
             user_eco = json.load(f)
 
-        with open("cogs/json/prefix.json", "r") as f:
+        with open("cogs/jsonfiles/prefix.json", "r") as f:
             prefix = json.load(f)
 
         if member is None:
@@ -26,7 +26,7 @@ class Economy(commands.Cog):
             user_eco[str(member.id)]["Balance"] = 0
             user_eco[str(member.id)]["Bank"] = 0
 
-            with open("cogs/json/economy.json", "w") as f:
+            with open("cogs/jsonfiles/economy.json", "w") as f:
                 json.dump(user_eco, f, indent=4)
 
         embed = discord.Embed(title=f"{member.name}'s Current Balance",
@@ -41,7 +41,7 @@ class Economy(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 3600, commands.BucketType.user)
     async def work(self, ctx):
-        with open("cogs/json/economy.json", "r") as f:
+        with open("cogs/jsonfiles/economy.json", "r") as f:
             user_eco = json.load(f)
 
         if str(ctx.author.id) not in user_eco:
@@ -49,14 +49,14 @@ class Economy(commands.Cog):
             user_eco[str(ctx.author.id)]["Balance"] = 0
             user_eco[str(ctx.author.id)]["Bank"] = 0
 
-            with open("cogs/json/economy.json", "w") as f:
+            with open("cogs/jsonfiles/economy.json", "w") as f:
                 json.dump(user_eco, f, indent=4)
 
         amount = random.randint(50, 100)
 
         user_eco[str(ctx.author.id)]["Balance"] += amount
 
-        with open("cogs/json/economy.json", "w") as f:
+        with open("cogs/jsonfiles/economy.json", "w") as f:
             json.dump(user_eco, f, indent=4)
 
         embed = discord.Embed(title="Work Is Done!",
@@ -82,10 +82,10 @@ class Economy(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 86400, commands.BucketType.user)
     async def daily(self, ctx):
-        with open("cogs/json/economy.json", "r") as f:
+        with open("cogs/jsonfiles/economy.json", "r") as f:
             user_eco = json.load(f)
 
-        with open("cogs/json/prefix.json", "r") as f:
+        with open("cogs/jsonfiles/prefix.json", "r") as f:
             prefix = json.load(f)
 
         if str(ctx.author.id) not in user_eco:
@@ -100,7 +100,7 @@ class Economy(commands.Cog):
 
         user_eco[str(ctx.author.id)]["Balance"] += amount
 
-        with open("cogs/json/economy.json", "w") as f:
+        with open("cogs/jsonfiles/economy.json", "w") as f:
             json.dump(user_eco, f, indent=4)
 
         embed = discord.Embed(title="Daily Coins!",
@@ -124,18 +124,18 @@ class Economy(commands.Cog):
 
             await ctx.send(embed=embed)
 
-    # @commands.command()
-    # async def deposit(self, ctx, coins):
-    #     with open("cogs/json/economy.json", "r") as f:
-    #         user_eco = json.load(f)
-    #
-    #     if str(ctx.author.id) not in user_eco:
-    #         user_eco[str(ctx.author.id)] = {}
-    #         user_eco[str(ctx.author.id)]["Balance"] = 0
-    #         user_eco[str(ctx.author.id)]["Bank"] = 0
-    #
-    #         with open("cogs/json/economy.json", "w") as f:
-    #             json.dump(user_eco, f, indent=4)
+    @commands.command()
+    async def deposit(self, ctx, amount):
+        with open("cogs/jsonfiles/economy.json", "r") as f:
+            user_eco = json.load(f)
+
+        if str(ctx.author.id) not in user_eco:
+            user_eco[str(ctx.author.id)] = {}
+            user_eco[str(ctx.author.id)]["Balance"] = 0
+            user_eco[str(ctx.author.id)]["Bank"] = 0
+
+            with open("cogs/json/economy.json", "w") as f:
+                json.dump(user_eco, f, indent=4)
 
 async def setup(client):
     await client.add_cog(Economy(client))

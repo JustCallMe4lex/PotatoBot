@@ -129,4 +129,4 @@ dmypy.json
 .pyre/
 
 utils/
-cogs/json/
+cogs/jsonfiles/

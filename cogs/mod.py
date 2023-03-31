@@ -18,6 +18,17 @@ class Moderation(commands.Cog):
             await ctx.message.delete()
             await ctx.send("Please enter the limit of messages in between 2 and 25.")
 
+    @clear.error
+    async def clear_error(self, ctx, error):
+        if isinstance(error, commands.MissingPermissions):
+            embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
+            embed.add_field(name="Clear Command Failed!",
+                            value="You don't have the required permissions to use this command.",
+                            inline=False)
+            embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
+
+            await ctx.send(embed=embed)
+
     @commands.command()
     @commands.has_permissions(kick_members=True)
     async def kick(self, ctx, member: discord.Member, *, reason):
@@ -39,6 +50,15 @@ class Moderation(commands.Cog):
             embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
             embed.add_field(name="Kick Member Failed!",
                             value="Please enter the member you wish to kick or enter a reason why.",
+                            inline=False)
+            embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
+
+            await ctx.send(embed=embed)
+
+        elif isinstance(error, commands.MissingPermissions):
+            embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
+            embed.add_field(name="Kick Member Failed!",
+                            value="You don't have the required permissions to use this command.",
                             inline=False)
             embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
 
@@ -71,6 +91,15 @@ class Moderation(commands.Cog):
 
             await ctx.send(embed=embed)
 
+        elif isinstance(error, commands.MissingPermissions):
+            embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
+            embed.add_field(name="Ban Member Failed!",
+                            value="You don't have the required permissions to use this command.",
+                            inline=False)
+            embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
+
+            await ctx.send(embed=embed)
+
     @commands.command()
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
@@ -89,8 +118,17 @@ class Moderation(commands.Cog):
     async def unban_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
-            embed.add_field(name="Ban Member Failed!",
+            embed.add_field(name="Unban Member Failed!",
                             value="Please enter the ID of the member you want to unban.",
+                            inline=False)
+            embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
+
+            await ctx.send(embed=embed)
+
+        elif isinstance(error, commands.MissingPermissions):
+            embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
+            embed.add_field(name="Unban Member Failed!",
+                            value="You don't have the required permissions to use this command.",
                             inline=False)
             embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
 
@@ -99,7 +137,7 @@ class Moderation(commands.Cog):
     @commands.command()
     @commands.has_permissions(manage_roles=True)
     async def mute(self, ctx, member: discord.Member):
-        with open("cogs/json/mutes.json", "r") as f:
+        with open("cogs/jsonfiles/mutes.json", "r") as f:
             role = json.load(f)
 
             mute_role = discord.utils.get(ctx.guild.roles, name=role[str(ctx.guild.id)])
@@ -124,10 +162,20 @@ class Moderation(commands.Cog):
 
             await ctx.send(embed=embed)
 
+        elif isinstance(error, commands.MissingPermissions):
+            embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
+            embed.add_field(name="Mute Member Failed!",
+                            value="You don't have the required permissions to use this command.",
+                            inline=False)
+            embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
+
+            await ctx.send(embed=embed)
+
+
     @commands.command()
     @commands.has_permissions(manage_roles=True)
     async def unmute(self, ctx, member: discord.Member):
-        with open("cogs/json/mutes.json", "r") as f:
+        with open("cogs/jsonfiles/mutes.json", "r") as f:
             role = json.load(f)
 
             mute_role = discord.utils.get(ctx.guild.roles, name=role[str(ctx.guild.id)])
@@ -147,6 +195,15 @@ class Moderation(commands.Cog):
             embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
             embed.add_field(name="Unmute Member Failed!",
                             value="Please enter the member you wish to unmute.",
+                            inline=False)
+            embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
+
+            await ctx.send(embed=embed)
+
+        elif isinstance(error, commands.MissingPermissions):
+            embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
+            embed.add_field(name="Unmute Member Failed!",
+                            value="You don't have the required permissions to use this command.",
                             inline=False)
             embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
 
