@@ -28,6 +28,8 @@ class System(commands.Cog):
         for name, value, inline in fields:
             embed.add_field(name=name, value=value, inline=inline)
 
+        embed.set_thumbnail(url=ctx.author.avatar)
+
         await ctx.send(embed=embed)
 
     @settings.command()
