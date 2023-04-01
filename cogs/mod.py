@@ -9,6 +9,7 @@ class Moderation(commands.Cog):
     @commands.command()
     @commands.has_permissions(manage_messages=True)
     async def clear(self, ctx, count: int = 1):
+        """Clear some messages"""
         if 0 < count <= 25:
             await ctx.message.delete()
             await ctx.channel.purge(limit=count)
@@ -32,6 +33,7 @@ class Moderation(commands.Cog):
     @commands.command()
     @commands.has_permissions(kick_members=True)
     async def kick(self, ctx, member: discord.Member, *, reason):
+        """Kick a member"""
         await ctx.guild.kick(member)
 
         embed = discord.Embed(title="Command Success!", color=discord.Color.green())
@@ -67,6 +69,7 @@ class Moderation(commands.Cog):
     @commands.command()
     @commands.has_permissions(ban_members=True)
     async def ban(self, ctx, member: discord.Member, *, reason):
+        """Ban a member"""
         await ctx.guild.ban(member)
 
         embed = discord.Embed(title="Command Success!", color=discord.Color.green())
@@ -104,6 +107,7 @@ class Moderation(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
     async def unban(self, ctx, userId):
+        """Unban a member"""
         user = discord.Object(userId)
         await ctx.guild.unban(user)
 
@@ -137,6 +141,7 @@ class Moderation(commands.Cog):
     @commands.command()
     @commands.has_permissions(manage_roles=True)
     async def mute(self, ctx, member: discord.Member):
+        """Mute a member"""
         with open("cogs/jsonfiles/mutes.json", "r") as f:
             role = json.load(f)
 
@@ -175,6 +180,7 @@ class Moderation(commands.Cog):
     @commands.command()
     @commands.has_permissions(manage_roles=True)
     async def unmute(self, ctx, member: discord.Member):
+        """Unmute a member"""
         with open("cogs/jsonfiles/mutes.json", "r") as f:
             role = json.load(f)
 

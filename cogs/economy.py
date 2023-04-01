@@ -10,6 +10,7 @@ class Economy(commands.Cog):
 
     @commands.command(aliases=["bal"])
     async def balance(self, ctx, member: discord.Member = None):
+        """Check your coin balance"""
         with open("cogs/jsonfiles/economy.json", "r") as f:
             user_eco = json.load(f)
 
@@ -42,6 +43,7 @@ class Economy(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 3600, commands.BucketType.user)
     async def work(self, ctx):
+        """Work for coins"""
         with open("cogs/jsonfiles/economy.json", "r") as f:
             user_eco = json.load(f)
 
@@ -83,6 +85,7 @@ class Economy(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 86400, commands.BucketType.user)
     async def daily(self, ctx):
+        """Daily bonus coins"""
         with open("cogs/jsonfiles/economy.json", "r") as f:
             user_eco = json.load(f)
 
@@ -128,6 +131,7 @@ class Economy(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 60, commands.BucketType.user)
     async def steal(self, ctx, member: discord.Member):
+        """Steal another user's coins"""
         with open("cogs/jsonfiles/economy.json", "r") as f:
             user_eco = json.load(f)
 
@@ -187,6 +191,7 @@ class Economy(commands.Cog):
 
     @commands.command(aliases=["dp"])
     async def deposit(self, ctx, amount: int):
+        """Deposit coins into the bank"""
         with open("cogs/jsonfiles/economy.json", "r") as f:
             user_eco = json.load(f)
 
@@ -221,6 +226,7 @@ class Economy(commands.Cog):
 
     @commands.command(aliases=["wd"])
     async def withdraw(self, ctx, amount: int):
+        """Withdraw your coins from the bank"""
         with open("cogs/jsonfiles/economy.json", "r") as f:
             user_eco = json.load(f)
 
@@ -255,6 +261,7 @@ class Economy(commands.Cog):
 
     @commands.command()
     async def slots(self, ctx, amount: int):
+        """Gamble your coins"""
         with open("cogs/jsonfiles/economy.json", "r") as f:
             user_eco = json.load(f)
 
@@ -292,7 +299,7 @@ class Economy(commands.Cog):
 
                 await ctx.send(embed=embed)
 
-        elif final[0] == final[1] or final[1] == final[2] or final[0] == final[2]:
+        elif final[0] == final[1] or final[1] == final[2] or final[0] == final[2]: # 2 slots match
             winnings = amount * 2
 
             if str(ctx.author.id) not in user_eco:
@@ -321,7 +328,7 @@ class Economy(commands.Cog):
 
                 await ctx.send(embed=embed)
 
-        else:
+        else: # None match
             if str(ctx.author.id) not in user_eco:
                 user_eco[str(ctx.author.id)] = {}
                 user_eco[str(ctx.author.id)]["Balance"] = 100

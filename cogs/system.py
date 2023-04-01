@@ -10,6 +10,7 @@ class System(commands.Cog):
     @commands.group(invoke_without_command=True)
     @commands.has_permissions(administrator=True)
     async def settings(self, ctx):
+        """Adjust the settings of the server"""
         with open("cogs/jsonfiles/prefix.json", "r") as f:
             prefix = json.load(f)
 
@@ -35,6 +36,7 @@ class System(commands.Cog):
     @settings.command()
     @commands.has_permissions(administrator=True)
     async def setautorole(self, ctx, role: discord.Role):
+        """Set the welcome role"""
         with open("cogs/jsonfiles/welcome.json", "r") as f:
             data = json.load(f)
 
@@ -74,6 +76,7 @@ class System(commands.Cog):
     @settings.command()
     @commands.has_permissions(administrator=True)
     async def setwelcomemessage(self, ctx, *, message):
+        """Set the welcome message"""
         if 10 < len(message) <= 200:
             with open("cogs/jsonfiles/welcome.json", "r") as f:
                 data = json.load(f)
@@ -121,6 +124,7 @@ class System(commands.Cog):
     @settings.command()
     @commands.has_permissions(administrator=True)
     async def setwelcomechannel(self, ctx, channel: discord.TextChannel):
+        """Set the welcome channel"""
         with open("cogs/jsonfiles/welcome.json", "r") as f:
             data = json.load(f)
 
@@ -159,6 +163,7 @@ class System(commands.Cog):
     @settings.command()
     @commands.has_permissions(administrator=True)
     async def setimageurl(self, ctx, *, url):
+        """Set the welcome image"""
         with open("cogs/jsonfiles/welcome.json", "r") as f:
             data = json.load(f)
 
@@ -196,6 +201,7 @@ class System(commands.Cog):
 
     @commands.command()
     async def ping(self, ctx):
+        """Check ping"""
         bot_latency = round(self.client.latency * 1000)
 
         await ctx.send(f"Pong! {bot_latency}ms")
@@ -203,6 +209,7 @@ class System(commands.Cog):
     @settings.command()
     @commands.has_permissions(administrator=True)
     async def changeprefix(self, ctx, *, newprefix: str):
+        """Change the prefix of the server"""
         if 0 < len(newprefix) <= 5:
             with open("cogs/jsonfiles/prefix.json.", "r") as f:
                 prefix = json.load(f)
@@ -250,6 +257,7 @@ class System(commands.Cog):
     @settings.command()
     @commands.has_permissions(administrator=True)
     async def setmuterole(self, ctx, role: discord.Role):
+        """Set the mute role for the mute command"""
         with open("cogs/jsonfiles/mutes.json", "r") as f:
             mutes = json.load(f)
 
