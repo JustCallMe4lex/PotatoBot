@@ -10,6 +10,9 @@ class System(commands.Cog):
     @commands.group(invoke_without_command=True)
     @commands.has_permissions(administrator=True)
     async def settings(self, ctx):
+        with open("cogs/jsonfiles/prefix.json", "r") as f:
+            prefix = json.load(f)
+
         embed = discord.Embed(title="System Setup",
                               description="Tweak and adjust the server settings here!",
                               color=discord.Colour.random())
@@ -19,7 +22,7 @@ class System(commands.Cog):
             ("Welcome Message", "Set a message to be included in the welcome card.", False),
             ("Welcome Channel", "Set a channel for the welcome card to be sent in.", False),
             ("Image URL", "Set an image or gif url to be sent with the welcome card.", False),
-            ("Server Prefix", "The default prefix is `p!`. You can change it if you wish", False),
+            ("Server Prefix", f"The current prefix is `{prefix[str(ctx.guild.id)]}`. You can change it if you wish", False),
             ("Mute Role", "Set a mute role to mute members.", False)]
 
         for name, value, inline in fields:
