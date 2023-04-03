@@ -73,6 +73,15 @@ async def on_guild_join(guild):
     with open("cogs/jsonfiles/mutes.json", "w") as f:
         json.dump(mutes, f, indent=4)
 
+    # Adding Guild to Logs Data
+    with open("cogs/jsonfiles/logs.json", "r") as f:
+        logs = json.load(f)
+
+    logs[str(guild.id)] = None
+
+    with open("cogs/jsonfiles/logs.json", "w") as f:
+        json.dump(mutes, f, indent=4)
+
 @client.event
 async def on_guild_remove(guild):
     # Removing Welcome Data
@@ -100,6 +109,15 @@ async def on_guild_remove(guild):
     mutes.pop(str(guild.id))
 
     with open("cogs/jsonfiles/mutes.json", "w") as f:
+        json.dump(mutes, f, indent=4)
+
+    # Adding Guild to Logs Data
+    with open("cogs/jsonfiles/logs.json", "r") as f:
+        logs = json.load(f)
+
+    logs.pop(str(guild.id))
+
+    with open("cogs/jsonfiles/logs.json", "w") as f:
         json.dump(mutes, f, indent=4)
 
 # Loading Cogs

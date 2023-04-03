@@ -14,17 +14,27 @@ class System(commands.Cog):
         with open("cogs/jsonfiles/prefix.json", "r") as f:
             prefix = json.load(f)
 
+        with open("cogs/jsonfiles/logs.json", "r") as f:
+            logs = json.load(f)
+
+        with open("cogs/jsonfiles/welcome.json", "r") as f:
+            data = json.load(f)
+
+        with open("cogs/jsonfiles/mutes.json", "r") as f:
+            mutes = json.load(f)
+
         embed = discord.Embed(title="System Setup",
                               description="Tweak and adjust the server settings here!",
                               color=discord.Colour.random())
 
         fields = [
-            ("Auto Role", "Set an automatic role so when a user joins, they will receive it automatically.", False),
-            ("Welcome Message", "Set a message to be included in the welcome card.", False),
-            ("Welcome Channel", "Set a channel for the welcome card to be sent in.", False),
-            ("Image URL", "Set an image or gif url to be sent with the welcome card.", False),
-            ("Server Prefix", f"The current prefix is `{prefix[str(ctx.guild.id)]}`. You can change it if you wish", False),
-            ("Mute Role", "Set a mute role to mute members.", False)]
+            ("Auto Role", f"The current auto role is `{data[str(ctx.guild.id)]['AutoRole']}`. You can change it if you wish.", False),
+            ("Welcome Message", f"The current welcome message is `{data[str(ctx.guild.id)]['Message']}`. You can change it if you wish.", False),
+            ("Welcome Channel", f"The current welcome channel is `{data[str(ctx.guild.id)]['Channel']}`. You can change it if you wish.", False),
+            ("Image URL", f"The current welcome image is `{data[str(ctx.guild.id)]['ImageUrl']}`. You can change it if you wish.", False),
+            ("Server Prefix", f"The current prefix is `{prefix[str(ctx.guild.id)]}`. You can change it if you wish.", False),
+            ("Mute Role", f"The current mute role is `{mutes[str(ctx.guild.id)]}`. You can change it if you wish.", False),
+            ("Logs Channel", f"The current logs channel is `{logs[str(ctx.guild.id)]}`. You can change it if you wish.", False)]
 
         for name, value, inline in fields:
             embed.add_field(name=name, value=value, inline=inline)
@@ -32,6 +42,17 @@ class System(commands.Cog):
         embed.set_thumbnail(url=ctx.author.avatar)
 
         await ctx.send(embed=embed)
+
+    @settings.error
+    async def settings_error(self, ctx, error):
+        if isinstance(error, commands.MissingPermissions):
+            embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
+            embed.add_field(name="Settings Command Failed!",
+                            value="You don't have the required permissions to use this command.",
+                            inline=False)
+            embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
+
+            await ctx.send(embed=embed)
 
     @settings.command()
     @commands.has_permissions(administrator=True)
@@ -287,6 +308,45 @@ class System(commands.Cog):
         elif isinstance(error, commands.MissingPermissions):
             embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
             embed.add_field(name="Mute Role Set Failed!",
+                            value="You don't have the required permissions to use this command.",
+                            inline=False)
+            embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
+
+            await ctx.send(embed=embed)
+
+    @settings.command()
+    @commands.has_permissions(administrator=True)
+    async def setlogschannel(self, ctx, channel: discord.TextChannel):
+        """Set the logs channel"""
+        with open("cogs/jsonfiles/logs.json", "r") as f:
+            logs = json.load(f)
+
+        logs[str(ctx.guild.id)] = str(channel.name)
+
+        with open("cogs/jsonfiles/logs.json", "w") as f:
+            json.dump(logs, f, indent=4)
+
+        embed = discord.Embed(title="Command Success!", color=discord.Color.green())
+        embed.add_field(name="Logs Channel Set!",
+                        value=f"Channel has been changed to {channel.name}.",
+                        inline=False)
+
+        await ctx.send(embed=embed)
+
+    @setlogschannel.error
+    async def setlogschannel_error(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
+            embed.add_field(name="Channel Set Failed!",
+                            value="Please enter a channel.",
+                            inline=False)
+            embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
+
+            await ctx.send(embed=embed)
+
+        elif isinstance(error, commands.MissingPermissions):
+            embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
+            embed.add_field(name="Channel Set Failed!",
                             value="You don't have the required permissions to use this command.",
                             inline=False)
             embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
