@@ -8,13 +8,17 @@ class Moderation(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(manage_messages=True)
-    async def clear(self, ctx, count: int = 1):
+    async def clear(self, ctx, count: int = 1, member: discord.Member = None, reason: str = None):
         """Clear some messages"""
-        if 0 < count <= 25:
-            await ctx.message.delete()
-            await ctx.channel.purge(limit=count)
+        def _check(message):
+            return message.author == member
 
-            await ctx.send(f"Deleted {count} messages.")
+        if 0 < count <= 25:
+            async with ctx.channel.typing():
+                await ctx.message.delete()
+                await ctx.channel.purge(limit=count, check=_check, reason=reason)
+
+                await ctx.send(f"Deleted {count} messages.")
         else:
             await ctx.message.delete()
             await ctx.send("Please enter the limit of messages in between 2 and 25.")

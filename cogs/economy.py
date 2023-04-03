@@ -268,7 +268,7 @@ class Economy(commands.Cog):
 
         final = []
         for i in range(3):
-            a = random.choice([":heart:", ":blue_heart:", ":yellow_heart:", ":green_heart:", ":orange_heart:"])
+            a = random.choice([":heart:", ":blue_heart:", ":yellow_heart:", ":green_heart:", ":orange_heart:", ":black_heart:", ":white_heart:"])
             final.append(a)
 
         if final[0] == final[1] == final[2]: # All 3 slots match
