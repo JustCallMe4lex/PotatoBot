@@ -129,7 +129,7 @@ class Economy(commands.Cog):
             await ctx.send(embed=embed)
 
     @commands.command()
-    @commands.cooldown(1, 60, commands.BucketType.user)
+    @commands.cooldown(3, 60, commands.BucketType.user)
     async def steal(self, ctx, member: discord.Member):
         """Steal another user's coins"""
         with open("cogs/jsonfiles/economy.json", "r") as f:
@@ -158,6 +158,7 @@ class Economy(commands.Cog):
 
             if amount > user_eco[str(member.id)]["Balance"]:
                 await ctx.send("So... You're stealing from a poor person? Shameful.")
+
             else:
                 user_eco[str(ctx.author.id)]["Balance"] += amount
                 user_eco[str(member.id)]["Balance"] -= amount
@@ -261,7 +262,7 @@ class Economy(commands.Cog):
 
     @commands.command()
     async def slots(self, ctx, amount: int):
-        """Gamble your coins"""
+        """Gamble your coins with the RNG of slots"""
         with open("cogs/jsonfiles/economy.json", "r") as f:
             user_eco = json.load(f)
 
