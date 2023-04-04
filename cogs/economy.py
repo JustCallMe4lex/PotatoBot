@@ -165,10 +165,23 @@ class Economy(commands.Cog):
                 with open("cogs/jsonfiles/economy.json", "w") as f:
                     json.dump(user_eco, f, indent=4)
 
-                await ctx.send(f"Looks you get away with {amount} coins from {member.mention} this time.")
+                embed = discord.Embed(title="Nice Steal!",
+                                      description="Looks like you got away with it... for now.",
+                                      color=discord.Color.random())
+                embed.add_field(name="Good job!", value=f"You pulled a successful heist on {member.mention}.", inline=False)
+                embed.add_field(name="New Balance:", value=f"{user_eco[str(ctx.author.id)]['Balance']} coins", inline=False)
+                embed.set_thumbnail(url=ctx.author.avatar)
+
+                await ctx.send(embed=embed)
 
         else:
-            await ctx.send("Looks like you were caught. Better luck next time.")
+            embed = discord.Embed(title="You were caught!",
+                                  description="Uh oh...",
+                                  color=discord.Color.random())
+            embed.add_field(name="Looks like you were caught stealing.", value="Better luck next time.", inline=False)
+            embed.set_thumbnail(url=ctx.author.avatar)
+
+            await ctx.send(embed=embed)
 
     @steal.error
     async def steal_error(self, ctx, error):
@@ -212,7 +225,14 @@ class Economy(commands.Cog):
             with open("cogs/jsonfiles/economy.json", "w") as f:
                 json.dump(user_eco, f, indent=4)
 
-            await ctx.send(f"Successfully deposited {amount} coins into the bank.")
+            embed = discord.Embed(title="Coins Deposited!",
+                                  description="Your coins are safe now!",
+                                  color=discord.Color.random())
+            embed.add_field(name="Deposited Amount:", value=f"{amount} coins", inline=False)
+            embed.add_field(name="New Balance:", value=f"{user_eco[str(ctx.author.id)]['Balance']} coins", inline=False)
+            embed.set_thumbnail(url=ctx.author.avatar)
+
+            await ctx.send(embed=embed)
 
     @deposit.error
     async def deposit_error(self, ctx, error):
@@ -247,7 +267,14 @@ class Economy(commands.Cog):
             with open("cogs/jsonfiles/economy.json", "w") as f:
                 json.dump(user_eco, f, indent=4)
 
-            await ctx.send(f"Successfully withdrawn {amount} coins from the bank.")
+            embed = discord.Embed(title="Coins Withdrawn!",
+                                  description="Now you run the risk of your coins being stolen!",
+                                  color=discord.Color.random())
+            embed.add_field(name="Withdrawn Amount:", value=f"{amount} coins", inline=False)
+            embed.add_field(name="New Balance:", value=f"{user_eco[str(ctx.author.id)]['Balance']} coins", inline=False)
+            embed.set_thumbnail(url=ctx.author.avatar)
+
+            await ctx.send(embed=embed)
 
     @withdraw.error
     async def withdraw_error(self, ctx, error):
