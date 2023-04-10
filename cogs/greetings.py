@@ -14,11 +14,12 @@ class Greetings(commands.Cog):
 
         embed = discord.Embed(title=f"Welcome to the {member.guild.name} Server!",
                               description=f"You are member #{member.guild.member_count}!",
-                              color=discord.Colour.random())
+                              color=discord.Colour.random(),
+                              timestamp=datetime.utcnow())
 
         embed.add_field(name="A message from the admins: ", value=f"{data[str(member.guild.id)]['Message']}", inline=False)
         embed.set_image(url=data[str(member.guild.id)]["ImageUrl"])
-        embed.set_footer(text=datetime.utcnow(), icon_url=member.avatar)
+        embed.set_thumbnail(url=member.avatar)
 
         if data[str(member.guild.id)]["Channel"] is None:
             await member.send(embed=embed)
