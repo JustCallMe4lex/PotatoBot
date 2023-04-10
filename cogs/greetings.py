@@ -12,7 +12,7 @@ class Greetings(commands.Cog):
         with open("cogs/jsonfiles/welcome.json", "r") as f:
             data = json.load(f)
 
-        embed = discord.Embed(title=f"Welcome to the {member.guild.name} Server!",
+        embed = discord.Embed(title=f"Welcome to {member.guild.name}, {member.name}!",
                               description=f"You are member #{member.guild.member_count}!",
                               color=discord.Colour.random(),
                               timestamp=datetime.utcnow())

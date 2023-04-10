@@ -1,4 +1,6 @@
 import json
+from typing import Optional
+
 import discord
 from discord.ext import commands
 
@@ -8,10 +10,10 @@ class Moderation(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(manage_messages=True)
-    async def clear(self, ctx, count: int = 1, member: discord.Member = None, reason: str = None):
+    async def clear(self, ctx, members: commands.Greedy[discord.Member],  count: Optional[int] = 1, reason: Optional[int] = None):
         """Clear some messages"""
         def _check(message):
-            return message.author == member
+            return not len(members) or message.author in members
 
         if 0 < count <= 25:
             async with ctx.channel.typing():

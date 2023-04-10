@@ -48,7 +48,7 @@ async def on_guild_join(guild):
 
     data[str(guild.id)] = {}
     data[str(guild.id)]['Channel'] = None
-    data[str(guild.id)]['Message'] = None
+    data[str(guild.id)]['Message'] = "Welcome to the server!"
     data[str(guild.id)]['AutoRole'] = None
     data[str(guild.id)]['ImageUrl'] = None
 
@@ -80,7 +80,16 @@ async def on_guild_join(guild):
     logs[str(guild.id)] = None
 
     with open("cogs/jsonfiles/logs.json", "w") as f:
-        json.dump(mutes, f, indent=4)
+        json.dump(logs, f, indent=4)
+
+    # Adding Guild to Announcements Data
+    with open("cogs/jsonfiles/announcements.json", "r") as f:
+        ann_data = json.load(f)
+
+    ann_data[str(guild.id)] = None
+
+    with open("cogs/jsonfiles/announcements.json", "w") as f:
+        json.dump(ann_data, f, indent=4)
 
 @client.event
 async def on_guild_remove(guild):
@@ -111,14 +120,23 @@ async def on_guild_remove(guild):
     with open("cogs/jsonfiles/mutes.json", "w") as f:
         json.dump(mutes, f, indent=4)
 
-    # Adding Guild to Logs Data
+    # Removing Logs Data
     with open("cogs/jsonfiles/logs.json", "r") as f:
         logs = json.load(f)
 
     logs.pop(str(guild.id))
 
     with open("cogs/jsonfiles/logs.json", "w") as f:
-        json.dump(mutes, f, indent=4)
+        json.dump(logs, f, indent=4)
+
+    # Removing Announcements Data
+    with open("cogs/jsonfiles/announcements.json", "r") as f:
+        ann_data = json.load(f)
+
+    ann_data.pop(str(guild.id))
+
+    with open("cogs/jsonfiles/announcements.json", "w") as f:
+        json.dump(ann_data, f, indent=4)
 
 # Loading Cogs
 async def load():
