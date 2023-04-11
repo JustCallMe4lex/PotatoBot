@@ -9,6 +9,75 @@ class Logs(commands.Cog):
         self.client = client
 
     @commands.Cog.listener()
+    async def on_user_update(self, before, after): # User changes name, disc or avatar
+        with open("cogs/jsonfiles/logs.json", "r") as f:
+            logs = json.load(f)
+
+        log_channel = discord.utils.get(after.guild.channels, name=logs[str(after.guild.id)])
+
+        if before.name != after.name:
+            embed = discord.Embed(title="Username Changed!",
+                                  description=f"{after.name} has changed their name!",
+                                  color=discord.Color.blue(),
+                                  timestamp=datetime.utcnow())
+            embed.add_field(name="Before:", value=before.name, inline=False)
+            embed.add_field(name="After:", value=after.name, inline=False)
+            embed.set_thumbnail(url=after.avatar)
+
+            await log_channel.send(embed=embed)
+
+        if before.discriminator != after.discriminator:
+            embed = discord.Embed(title="Discriminator Changed!",
+                                  description=f"{after.name} has changed their discriminator!",
+                                  color=discord.Color.blue(),
+                                  timestamp=datetime.utcnow())
+            embed.add_field(name="Before:", value=before.discriminator, inline=False)
+            embed.add_field(name="After:", value=after.discriminator, inline=False)
+            embed.set_thumbnail(url=after.avatar)
+
+            await log_channel.send(embed=embed)
+
+        if before.avatar != after.avatar:
+            embed = discord.Embed(title="Avatar Changed!",
+                                  description=f"{after.name} has changed their avatar!",
+                                  color=discord.Color.blue(),
+                                  timestamp=datetime.utcnow())
+            embed.set_thumbnail(url=before.avatar)
+            embed.set_image(url=after.avatar)
+
+            await log_channel.send(embed=embed)
+
+    @commands.Cog.listener()
+    async def on_member_update(self, before, after):
+        with open("cogs/jsonfiles/logs.json", "r") as f:
+            logs = json.load(f)
+
+        log_channel = discord.utils.get(after.guild.channels, name=logs[str(after.guild.id)])
+
+        if before.display_name != after.display_name:
+            embed = discord.Embed(title="Nickname Changed!",
+                                  description=f"{after.name} has changed their nickname!",
+                                  color=discord.Color.blue(),
+                                  timestamp=datetime.utcnow())
+            embed.add_field(name="Before:", value=before.display_name, inline=False)
+            embed.add_field(name="After:", value=after.display_name, inline=False)
+            embed.set_thumbnail(url=after.avatar)
+
+            await log_channel.send(embed=embed)
+
+        elif before.roles != after.roles:
+            embed = discord.Embed(title="Roles Updated!",
+                                  description=f"{after.name} has updated their roles!",
+                                  color=discord.Color.blue(),
+                                  timestamp=datetime.utcnow())
+            embed.add_field(name="Before:", value=", ".join([r.mention for r in before.roles]), inline=False)
+            embed.add_field(name="After:", value=", ".join([r.mention for r in after.roles]), inline=False)
+            embed.set_thumbnail(url=after.avatar)
+
+            await log_channel.send(embed=embed)
+
+
+    @commands.Cog.listener()
     async def on_member_join(self, member): # Member leaves the server
         with open("cogs/jsonfiles/logs.json", "r") as f:
             logs = json.load(f)
@@ -32,7 +101,7 @@ class Logs(commands.Cog):
         log_channel = discord.utils.get(member.guild.channels, name=logs[str(member.guild.id)])
 
         embed = discord.Embed(title="Member Left!",
-                              description="A user left da hood!",
+                              description="A user has passed along to a better one!",
                               color=discord.Color.blue(),
                               timestamp=datetime.utcnow())
         embed.add_field(name="User:", value=member.mention, inline=False)
@@ -75,8 +144,6 @@ class Logs(commands.Cog):
             embed.set_thumbnail(url=message.author.avatar)
 
             await log_channel.send(embed=embed)
-
-        print(log_channel)
 
 async def setup(client):
     await client.add_cog(Logs(client))

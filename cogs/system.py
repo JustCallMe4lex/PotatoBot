@@ -8,7 +8,7 @@ class System(commands.Cog):
         self.client = client
 
     @commands.group(invoke_without_command=True)
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(manage_channels=True)
     async def settings(self, ctx):
         """Adjust the settings of the server"""
         with open("cogs/jsonfiles/prefix.json", "r") as f:
@@ -59,7 +59,7 @@ class System(commands.Cog):
             await ctx.send(embed=embed)
 
     @settings.command()
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(manage_roles=True)
     async def setautorole(self, ctx, role: discord.Role):
         """Set the welcome role"""
         with open("cogs/jsonfiles/welcome.json", "r") as f:
@@ -99,7 +99,7 @@ class System(commands.Cog):
 
 
     @settings.command()
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(manage_channels=True)
     async def setwelcomemessage(self, ctx, *, message):
         """Set the welcome message"""
         if 10 < len(message) <= 200:
@@ -147,7 +147,7 @@ class System(commands.Cog):
             await ctx.send(embed=embed)
 
     @settings.command()
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(manage_channels=True)
     async def setwelcomechannel(self, ctx, channel: discord.TextChannel):
         """Set the welcome channel"""
         with open("cogs/jsonfiles/welcome.json", "r") as f:
@@ -169,7 +169,7 @@ class System(commands.Cog):
     async def setwelcomechannel_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
-            embed.add_field(name="Channel Set Failed!",
+            embed.add_field(name="Welcome Channel Set Failed!",
                             value="Please enter a channel.",
                             inline=False)
             embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
@@ -178,7 +178,7 @@ class System(commands.Cog):
 
         elif isinstance(error, commands.MissingPermissions):
             embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
-            embed.add_field(name="Channel Set Failed!",
+            embed.add_field(name="Welcome Channel Set Failed!",
                             value="You don't have the required permissions to use this command.",
                             inline=False)
             embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
@@ -186,7 +186,7 @@ class System(commands.Cog):
             await ctx.send(embed=embed)
 
     @settings.command()
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(manage_channels=True)
     async def setimageurl(self, ctx, *, url):
         """Set the welcome image"""
         with open("cogs/jsonfiles/welcome.json", "r") as f:
@@ -232,7 +232,7 @@ class System(commands.Cog):
         await ctx.send(f"Pong! {bot_latency}ms")
 
     @settings.command()
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(manage_channels=True)
     async def changeprefix(self, ctx, *, newprefix: str):
         """Change the prefix of the server"""
         if 0 < len(newprefix) <= 5:
@@ -280,7 +280,7 @@ class System(commands.Cog):
             await ctx.send(embed=embed)
 
     @settings.command()
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(manage_roles=True)
     async def setmuterole(self, ctx, role: discord.Role):
         """Set the mute role for the mute command"""
         with open("cogs/jsonfiles/mutes.json", "r") as f:
@@ -319,7 +319,7 @@ class System(commands.Cog):
             await ctx.send(embed=embed)
 
     @settings.command()
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(manage_channels=True)
     async def setlogschannel(self, ctx, channel: discord.TextChannel):
         """Set the logs channel"""
         with open("cogs/jsonfiles/logs.json", "r") as f:
@@ -341,7 +341,7 @@ class System(commands.Cog):
     async def setlogschannel_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
-            embed.add_field(name="Channel Set Failed!",
+            embed.add_field(name="Logs Channel Set Failed!",
                             value="Please enter a channel.",
                             inline=False)
             embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
@@ -350,7 +350,7 @@ class System(commands.Cog):
 
         elif isinstance(error, commands.MissingPermissions):
             embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
-            embed.add_field(name="Channel Set Failed!",
+            embed.add_field(name="Logs Channel Set Failed!",
                             value="You don't have the required permissions to use this command.",
                             inline=False)
             embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
@@ -358,7 +358,7 @@ class System(commands.Cog):
             await ctx.send(embed=embed)
 
     @settings.command()
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(manage_channels=True)
     async def setannouncementschannel(self, ctx, channel: discord.TextChannel):
         """Set the announcements channel"""
         with open("cogs/jsonfiles/announcements.json", "r") as f:
@@ -380,7 +380,7 @@ class System(commands.Cog):
     async def setannouncementschannel_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
-            embed.add_field(name="Channel Set Failed!",
+            embed.add_field(name="Announcements Channel Set Failed!",
                             value="Please enter a channel.",
                             inline=False)
             embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
@@ -389,7 +389,7 @@ class System(commands.Cog):
 
         elif isinstance(error, commands.MissingPermissions):
             embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
-            embed.add_field(name="Channel Set Failed!",
+            embed.add_field(name="Announcements Channel Set Failed!",
                             value="You don't have the required permissions to use this command.",
                             inline=False)
             embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")

@@ -151,16 +151,25 @@ class Moderation(commands.Cog):
         with open("cogs/jsonfiles/mutes.json", "r") as f:
             role = json.load(f)
 
-            mute_role = discord.utils.get(ctx.guild.roles, name=role[str(ctx.guild.id)])
+        mute_role = discord.utils.get(ctx.guild.roles, name=role[str(ctx.guild.id)])
 
-        await member.add_roles(mute_role)
+        if mute_role is not None:
+            await member.add_roles(mute_role)
 
-        embed = discord.Embed(title="Command Success!", color=discord.Color.green())
-        embed.add_field(name="Member Muted!",
-                        value=f"{member.mention} has been silenced from the server by {ctx.author.mention}.",
-                        inline=False)
+            embed = discord.Embed(title="Command Success!", color=discord.Color.green())
+            embed.add_field(name="Member Muted!",
+                            value=f"{member.mention} has been silenced from the server by {ctx.author.mention}.",
+                            inline=False)
 
-        await ctx.send(embed=embed)
+            await ctx.send(embed=embed)
+        else:
+            embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
+            embed.add_field(name="Mute Member Failed!",
+                            value="No mute role detected. Please enter a role.",
+                            inline=False)
+            embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
+
+            await ctx.send(embed=embed)
 
     @mute.error
     async def mute_error(self, ctx, error):
@@ -190,16 +199,25 @@ class Moderation(commands.Cog):
         with open("cogs/jsonfiles/mutes.json", "r") as f:
             role = json.load(f)
 
-            mute_role = discord.utils.get(ctx.guild.roles, name=role[str(ctx.guild.id)])
+        mute_role = discord.utils.get(ctx.guild.roles, name=role[str(ctx.guild.id)])
 
-        await member.remove_roles(mute_role)
+        if mute_role is not None:
+            await member.remove_roles(mute_role)
 
-        embed = discord.Embed(title="Command Success!", color=discord.Color.green())
-        embed.add_field(name="Member Unmuted!",
-                        value=f"{member.mention} has been unmuted from the server by {ctx.author.mention}.",
-                        inline=False)
+            embed = discord.Embed(title="Command Success!", color=discord.Color.green())
+            embed.add_field(name="Member Unmuted!",
+                            value=f"{member.mention} has been unmuted from the server by {ctx.author.mention}.",
+                            inline=False)
 
-        await ctx.send(embed=embed)
+            await ctx.send(embed=embed)
+        else:
+            embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
+            embed.add_field(name="Mute Member Failed!",
+                            value="No mute role detected. Please enter a mute role.",
+                            inline=False)
+            embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
+
+            await ctx.send(embed=embed)
 
     @unmute.error
     async def unmute_error(self, ctx, error):

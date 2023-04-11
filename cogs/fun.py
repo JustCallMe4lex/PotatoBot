@@ -8,11 +8,6 @@ class Fun(commands.Cog):
         self.client = client
 
     @commands.command()
-    async def betlog(self, ctx):
-        """BETLOOOOG"""
-        await ctx.send("BETLOOOOOG!!!")
-
-    @commands.command()
     async def roll_dice(self, ctx, die_string: str):
         """Pray you won't get Nat 1."""
         dice, value = (int(term) for term in die_string.split("d"))
