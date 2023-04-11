@@ -129,7 +129,7 @@ class Economy(commands.Cog):
             await ctx.send(embed=embed)
 
     @commands.command()
-    @commands.cooldown(3, 60, commands.BucketType.user)
+    @commands.cooldown(1, 60, commands.BucketType.user)
     async def steal(self, ctx, member: discord.Member):
         """Steal another user's coins"""
         with open("cogs/jsonfiles/economy.json", "r") as f:
