@@ -38,6 +38,7 @@ class ReportModal(discord.ui.Modal, title="User Report Form"):
             f"{interaction.user.mention} Thank you for submitting your report, the moderation team will review it shortly.",
             ephemeral=True
         )
+
         mod_mail_channel = discord.utils.get(interaction.guild.channels, name=mod_mail[str(interaction.guild.id)])
 
         embed = discord.Embed(title=f"Mods, {interaction.user.name} Reported A User!",
