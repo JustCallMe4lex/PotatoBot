@@ -138,7 +138,7 @@ class Economy(commands.Cog):
         steal_prob = random.randint(0, 1)
 
         if steal_prob == 1: # Steal!!
-            amount = random.randint(1, 25)
+            amount = random.randint(1, 100)
 
             if str(ctx.author.id) not in user_eco:
                 user_eco[str(ctx.author.id)] = {}
