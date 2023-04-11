@@ -38,7 +38,7 @@ class Fun(commands.Cog):
     @commands.command()
     async def magic8ball(self, ctx, *, question: str):
         """The magic 8-ball"""
-        responses = ["It is certain.",
+        responses = ["It is certain.",  # Positive answers
                      "It is decidedly so.",
                      "Without a doubt.",
                      "Yes definitely.",
@@ -48,12 +48,12 @@ class Fun(commands.Cog):
                      "Outlook good.",
                      "Yes.",
                      "Signs point to yes.",
-                     "Reply hazy, try again.",
+                     "Reply hazy, try again.", # Confused answers
                      "Ask again later.",
                      "Better not tell you now.",
                      "Cannot predict now.",
                      "Concentrate and ask again.",
-                     "Don't count on it.",
+                     "Don't count on it.", # Negative answers
                      "My reply is no.",
                      "My sources say no.",
                      "Outlook not so good.",
