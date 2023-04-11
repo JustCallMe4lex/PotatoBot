@@ -8,7 +8,7 @@ class Fun(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command()
+    @commands.command(aliases=["roll"])
     async def roll_dice(self, ctx, die_string: str):
         """Pray you won't get Nat 1."""
         dice, value = (int(term) for term in die_string.split("d"))
@@ -35,7 +35,7 @@ class Fun(commands.Cog):
 
             await ctx.send(embed=embed)
 
-    @commands.command()
+    @commands.command(aliases=["8ball"])
     async def magic8ball(self, ctx, *, question: str):
         """The magic 8-ball"""
         responses = ["It is certain.",  # Positive answers
