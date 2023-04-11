@@ -91,6 +91,15 @@ async def on_guild_join(guild):
     with open("cogs/jsonfiles/announcements.json", "w") as f:
         json.dump(ann_data, f, indent=4)
 
+    # Adding Guild to Mod Mail Data
+    with open("cogs/jsonfiles/modmail.json", "r") as f:
+        mod_mail = json.load(f)
+
+    mod_mail[str(guild.id)] = None
+
+    with open("cogs/jsonfiles/modmail.json", "w") as f:
+        json.dump(mod_mail, f, indent=4)
+
 @client.event
 async def on_guild_remove(guild):
     # Removing Welcome Data
@@ -137,6 +146,15 @@ async def on_guild_remove(guild):
 
     with open("cogs/jsonfiles/announcements.json", "w") as f:
         json.dump(ann_data, f, indent=4)
+
+    # Removing Mod Mail Data
+    with open("cogs/jsonfiles/modmail.json", "r") as f:
+        mod_mail = json.load(f)
+
+    mod_mail.pop(str(guild.id))
+
+    with open("cogs/jsonfiles/modmail.json", "w") as f:
+        json.dump(mod_mail, f, indent=4)
 
 # Loading Cogs
 async def load():

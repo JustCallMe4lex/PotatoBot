@@ -26,6 +26,9 @@ class System(commands.Cog):
         with open("cogs/jsonfiles/announcements.json", "r") as f:
             ann_data = json.load(f)
 
+        with open("cogs/jsonfiles/modmail.json", "r") as f:
+            mod_mail = json.load(f)
+
         embed = discord.Embed(title="System Setup",
                               description="Tweak and adjust the server settings here!",
                               color=discord.Colour.random())
@@ -38,7 +41,9 @@ class System(commands.Cog):
             ("Server Prefix", f"The current prefix is `{prefix[str(ctx.guild.id)]}`. You can change it if you wish.", False),
             ("Mute Role", f"The current mute role is `{mutes[str(ctx.guild.id)]}`. You can change it if you wish.", False),
             ("Logs Channel", f"The current logs channel is `{logs[str(ctx.guild.id)]}`. You can change it if you wish.", False),
-            ("Announcements Channel", f"The current announcements channel is `{ann_data[str(ctx.guild.id)]}`. You can change it if you wish.", False)]
+            ("Announcements Channel", f"The current announcements channel is `{ann_data[str(ctx.guild.id)]}`. You can change it if you wish.", False),
+            ("Mod Mail Channel", f"The current modmail channel is `{mod_mail[str(ctx.guild.id)]}`. You can change it if you wish.", False)]
+
 
         for name, value, inline in fields:
             embed.add_field(name=name, value=value, inline=inline)
@@ -390,6 +395,45 @@ class System(commands.Cog):
         elif isinstance(error, commands.MissingPermissions):
             embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
             embed.add_field(name="Announcements Channel Set Failed!",
+                            value="You don't have the required permissions to use this command.",
+                            inline=False)
+            embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
+
+            await ctx.send(embed=embed)
+
+    @settings.command()
+    @commands.has_permissions(manage_channels=True)
+    async def setmodmailchannel(self, ctx, channel: discord.TextChannel):
+        """Set the modmail channel"""
+        with open("cogs/jsonfiles/modmail.json", "r") as f:
+            mod_mail = json.load(f)
+
+        mod_mail[str(ctx.guild.id)] = str(channel.name)
+
+        with open("cogs/jsonfiles/modmail.json", "w") as f:
+            json.dump(mod_mail, f, indent=4)
+
+        embed = discord.Embed(title="Command Success!", color=discord.Color.green())
+        embed.add_field(name="Mod Mail Channel Set!",
+                        value=f"Channel has been changed to {channel.name}.",
+                        inline=False)
+
+        await ctx.send(embed=embed)
+
+    @setmodmailchannel.error
+    async def setmodmailchannel_error(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
+            embed.add_field(name="Mod Mail Channel Set Failed!",
+                            value="Please enter a channel.",
+                            inline=False)
+            embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
+
+            await ctx.send(embed=embed)
+
+        elif isinstance(error, commands.MissingPermissions):
+            embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
+            embed.add_field(name="Mod Mail Channel Set Failed!",
                             value="You don't have the required permissions to use this command.",
                             inline=False)
             embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
