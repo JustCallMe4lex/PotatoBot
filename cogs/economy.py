@@ -26,6 +26,7 @@ class Economy(commands.Cog):
             user_eco[str(member.id)] = {}
             user_eco[str(member.id)]["Balance"] = 100
             user_eco[str(member.id)]["Bank"] = 0
+            user_eco[str(member.id)]["Occupation"] = None
 
             with open("cogs/jsonfiles/economy.json", "w") as f:
                 json.dump(user_eco, f, indent=4)
@@ -33,6 +34,7 @@ class Economy(commands.Cog):
         embed = discord.Embed(title=f"{member.name}'s Current Balance",
                               description=f"The amount of coins on {member.name}.",
                               color=discord.Color.random())
+        embed.add_field(name="Occupation:", value=f"{user_eco[str(member.id)]['Occupation']}", inline=True)
         embed.add_field(name="Coins:", value=f"{user_eco[str(member.id)]['Balance']}", inline=True)
         embed.add_field(name="Bank:", value=f"{user_eco[str(member.id)]['Bank']}", inline=True)
         embed.set_footer(text=f"Want to add more coins to your pocket? Use economy commands like {prefix[str(ctx.guild.id)]}daily or {prefix[str(ctx.guild.id)]}work.")
@@ -51,6 +53,7 @@ class Economy(commands.Cog):
             user_eco[str(ctx.author.id)] = {}
             user_eco[str(ctx.author.id)]["Balance"] = 100
             user_eco[str(ctx.author.id)]["Bank"] = 0
+            user_eco[str(ctx.author.id)]["Occupation"] = None
 
             with open("cogs/jsonfiles/economy.json", "w") as f:
                 json.dump(user_eco, f, indent=4)
@@ -96,6 +99,7 @@ class Economy(commands.Cog):
             user_eco[str(ctx.author.id)] = {}
             user_eco[str(ctx.author.id)]["Balance"] = 100
             user_eco[str(ctx.author.id)]["Bank"] = 0
+            user_eco[str(ctx.author.id)]["Occupation"] = None
 
             with open("cogs/json/economy.json", "w") as f:
                 json.dump(user_eco, f, indent=4)
@@ -144,6 +148,7 @@ class Economy(commands.Cog):
                 user_eco[str(ctx.author.id)] = {}
                 user_eco[str(ctx.author.id)]["Balance"] = 100
                 user_eco[str(ctx.author.id)]["Bank"] = 0
+                user_eco[str(ctx.author.id)]["Occupation"] = None
 
                 with open("cogs/json/economy.json", "w") as f:
                     json.dump(user_eco, f, indent=4)
@@ -152,6 +157,7 @@ class Economy(commands.Cog):
                 user_eco[str(member.id)] = {}
                 user_eco[str(member.id)]["Balance"] = 100
                 user_eco[str(member.id)]["Bank"] = 0
+                user_eco[str(member.id)]["Occupation"] = None
 
                 with open("cogs/jsonfiles/economy.json", "w") as f:
                     json.dump(user_eco, f, indent=4)
@@ -213,6 +219,7 @@ class Economy(commands.Cog):
             user_eco[str(ctx.author.id)] = {}
             user_eco[str(ctx.author.id)]["Balance"] = 100
             user_eco[str(ctx.author.id)]["Bank"] = 0
+            user_eco[str(ctx.author.id)]["Occupation"] = None
 
             with open("cogs/json/economy.json", "w") as f:
                 json.dump(user_eco, f, indent=4)
@@ -255,6 +262,7 @@ class Economy(commands.Cog):
             user_eco[str(ctx.author.id)] = {}
             user_eco[str(ctx.author.id)]["Balance"] = 100
             user_eco[str(ctx.author.id)]["Bank"] = 0
+            user_eco[str(ctx.author.id)]["Occupation"] = None
 
             with open("cogs/json/economy.json", "w") as f:
                 json.dump(user_eco, f, indent=4)
@@ -305,6 +313,7 @@ class Economy(commands.Cog):
                 user_eco[str(ctx.author.id)] = {}
                 user_eco[str(ctx.author.id)]["Balance"] = 100
                 user_eco[str(ctx.author.id)]["Bank"] = 0
+                user_eco[str(ctx.author.id)]["Occupation"] = None
 
                 with open("cogs/json/economy.json", "w") as f:
                     json.dump(user_eco, f, indent=4)
