@@ -174,7 +174,7 @@ class Economy(commands.Cog):
                 embed = discord.Embed(title="Nice Steal!",
                                       description="Looks like you got away with it... for now.",
                                       color=discord.Color.random())
-                embed.add_field(name="Good job!", value=f"You pulled a successful heist on {member.mention}.", inline=False)
+                embed.add_field(name="Good job!", value=f"You pulled a successful heist on {member.mention} and stole {amount} of coins.", inline=False)
                 embed.add_field(name="New Balance:", value=f"{user_eco[str(ctx.author.id)]['Balance']} coins", inline=False)
                 embed.set_thumbnail(url=ctx.author.avatar)
 
@@ -290,6 +290,55 @@ class Economy(commands.Cog):
             embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
             embed.add_field(name="Withdraw Command Failed!",
                             value="Enter amount of coins to be withdrawn.",
+                            inline=False)
+            embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
+
+            await ctx.send(embed=embed)
+
+    @commands.command()
+    async def transfer(self, ctx, member: discord.Member, amount: int):
+        """Transfer coins from user to another"""
+        with open("cogs/jsonfiles/economy.json", "r") as f:
+            user_eco = json.load(f)
+
+        if str(ctx.author.id) not in user_eco:
+            user_eco[str(ctx.author.id)] = {}
+            user_eco[str(ctx.author.id)]["Balance"] = 100
+            user_eco[str(ctx.author.id)]["Bank"] = 0
+            user_eco[str(ctx.author.id)]["Occupation"] = None
+
+            with open("cogs/json/economy.json", "w") as f:
+                json.dump(user_eco, f, indent=4)
+
+        elif str(member.id) not in user_eco:
+            user_eco[str(member.id)] = {}
+            user_eco[str(member.id)]["Balance"] = 100
+            user_eco[str(member.id)]["Bank"] = 0
+            user_eco[str(member.id)]["Occupation"] = None
+
+            with open("cogs/jsonfiles/economy.json", "w") as f:
+                json.dump(user_eco, f, indent=4)
+
+        user_eco[str(ctx.author.id)]["Balance"] -= amount
+        user_eco[str(member.id)]["Balance"] += amount
+        with open("cogs/jsonfiles/economy.json", "w") as f:
+            json.dump(user_eco, f, indent=4)
+
+        embed = discord.Embed(title="Command Successful!",
+                              description=f"Coins have been transferred to {member.name}",
+                              color=discord.Color.random())
+        embed.add_field(name="Amount Transferred:", value=f"{amount} coins", inline=False)
+        embed.add_field(name="New Balance:", value=f"{user_eco[str(ctx.author.id)]['Balance']} coins", inline=False)
+        embed.set_thumbnail(url=ctx.author.avatar)
+
+        await ctx.send(embed=embed)
+
+    @transfer.error
+    async def transfer_error(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
+            embed.add_field(name="Transfer Command Failed!",
+                            value="Please enter a member, or enter the amount of coins.",
                             inline=False)
             embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
 
