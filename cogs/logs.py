@@ -76,39 +76,6 @@ class Logs(commands.Cog):
 
             await log_channel.send(embed=embed)
 
-
-    @commands.Cog.listener()
-    async def on_member_join(self, member): # Member leaves the server
-        with open("cogs/jsonfiles/logs.json", "r") as f:
-            logs = json.load(f)
-
-        log_channel = discord.utils.get(member.guild.channels, name=logs[str(member.guild.id)])
-
-        embed = discord.Embed(title="Member Joined!",
-                              description="A new challenger approaches!",
-                              color=discord.Color.blue(),
-                              timestamp=datetime.utcnow())
-        embed.add_field(name="User:", value=member.mention, inline=False)
-        embed.set_thumbnail(url=member.avatar)
-
-        await log_channel.send(embed=embed)
-
-    @commands.Cog.listener()
-    async def on_member_remove(self, member): # Member leaves the server
-        with open("cogs/jsonfiles/logs.json", "r") as f:
-            logs = json.load(f)
-
-        log_channel = discord.utils.get(member.guild.channels, name=logs[str(member.guild.id)])
-
-        embed = discord.Embed(title="Member Left!",
-                              description="A user has passed along to a better one!",
-                              color=discord.Color.blue(),
-                              timestamp=datetime.utcnow())
-        embed.add_field(name="User:", value=member.mention, inline=False)
-        embed.add_field(url=member.avatar)
-
-        await log_channel.send(embed=embed)
-
     @commands.Cog.listener()
     async def on_message_edit(self, before, after): # Member edits message
         with open("cogs/jsonfiles/logs.json", "r") as f:

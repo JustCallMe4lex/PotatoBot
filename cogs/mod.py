@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 from typing import Optional
 
 import discord
@@ -40,17 +41,32 @@ class Moderation(commands.Cog):
     @commands.has_permissions(kick_members=True)
     async def kick(self, ctx, member: discord.Member, *, reason):
         """Kick a member"""
+        with open("cogs/jsonfiles/logs.json", "r") as f:
+            logs = json.load(f)
+
+        log_channel = discord.utils.get(ctx.guild.channels, name=logs[str(ctx.guild.id)])
+
         await ctx.guild.kick(member)
 
-        embed = discord.Embed(title="Command Success!", color=discord.Color.green())
+        kick_embed = discord.Embed(title="Command Success!", color=discord.Color.green())
 
         fields = [("Member Kicked!", f"{member.mention} has been kicked from the server by {ctx.author.mention}.", False),
                   ("Reason:", reason, False)]
 
         for name, value, inline in fields:
-            embed.add_field(name=name, value=value, inline=inline)
+            kick_embed.add_field(name=name, value=value, inline=inline)
 
-        await ctx.send(embed=embed)
+        await ctx.send(embed=kick_embed)
+
+        log_embed = discord.Embed(title="A member has been booted off the server!",
+                                  color=discord.Color.blue(),
+                                  timestamp=datetime.utcnow())
+
+        log_embed.add_field(name="Kicked Member:", value=f"{member.mention}", inline=False)
+        log_embed.add_field(name="Reason:", value=f"{reason}", inline=False)
+        log_embed.set_thumbnail(url=member.avatar)
+
+        await log_channel.send(embed=log_embed)
 
     @kick.error
     async def kick_error(self, ctx, error):
@@ -76,18 +92,33 @@ class Moderation(commands.Cog):
     @commands.has_permissions(ban_members=True)
     async def ban(self, ctx, member: discord.Member, *, reason):
         """Ban a member"""
+        with open("cogs/jsonfiles/logs.json", "r") as f:
+            logs = json.load(f)
+
+        log_channel = discord.utils.get(ctx.guild.channels, name=logs[str(ctx.guild.id)])
+
         await ctx.guild.ban(member)
 
-        embed = discord.Embed(title="Command Success!", color=discord.Color.green())
+        ban_embed = discord.Embed(title="Command Success!", color=discord.Color.green())
 
         fields = [
             ("Member Banned!", f"{member.mention} has been banned from the server by {ctx.author.mention}.", False),
             ("Reason:", reason, False)]
 
         for name, value, inline in fields:
-            embed.add_field(name=name, value=value, inline=inline)
+            ban_embed.add_field(name=name, value=value, inline=inline)
 
-        await ctx.send(embed=embed)
+        await ctx.send(embed=ban_embed)
+
+        log_embed = discord.Embed(title="The ban hammer has been brought down to a member!",
+                                  color=discord.Color.blue(),
+                                  timestamp=datetime.utcnow())
+
+        log_embed.add_field(name="Ban Member:", value=f"{member.mention}", inline=False)
+        log_embed.add_field(name="Reason:", value=f"{reason}", inline=False)
+        log_embed.set_thumbnail(url=member.avatar)
+
+        await log_channel.send(embed=log_embed)
 
     @ban.error
     async def ban_error(self, ctx, error):
@@ -114,15 +145,28 @@ class Moderation(commands.Cog):
     @commands.has_permissions(ban_members=True)
     async def unban(self, ctx, userId):
         """Unban a member"""
+        with open("cogs/jsonfiles/logs.json", "r") as f:
+            logs = json.load(f)
+
+        log_channel = discord.utils.get(ctx.guild.channels, name=logs[str(ctx.guild.id)])
+
         user = discord.Object(userId)
         await ctx.guild.unban(user)
 
-        embed = discord.Embed(title="Command Success!", color=discord.Color.green())
-        embed.add_field(name="Member Unbanned!",
+        unban_embed = discord.Embed(title="Command Success!", color=discord.Color.green())
+        unban_embed.add_field(name="Member Unbanned!",
                         value=f"<@{userId}> has been unbanned from the server by {ctx.author.mention}.",
                         inline=False)
 
-        await ctx.send(embed=embed)
+        await ctx.send(embed=unban_embed)
+
+        log_embed = discord.Embed(title="A member has been unbanned in the server!",
+                                  color=discord.Color.blue(),
+                                  timestamp=datetime.utcnow())
+
+        log_embed.add_field(name="User ID:", value=f"{userId}", inline=False)
+
+        await log_channel.send(embed=log_embed)
 
     @unban.error
     async def unban_error(self, ctx, error):
@@ -153,6 +197,11 @@ class Moderation(commands.Cog):
 
         mute_role = discord.utils.get(ctx.guild.roles, name=role[str(ctx.guild.id)])
 
+        with open("cogs/jsonfiles/logs.json", "r") as f:
+            logs = json.load(f)
+
+        log_channel = discord.utils.get(ctx.guild.channels, name=logs[str(ctx.guild.id)])
+
         if mute_role is not None:
             await member.add_roles(mute_role)
 
@@ -162,6 +211,15 @@ class Moderation(commands.Cog):
                             inline=False)
 
             await ctx.send(embed=embed)
+
+            log_embed = discord.Embed(title="A member has been silenced the server!",
+                                      color=discord.Color.blue(),
+                                      timestamp=datetime.utcnow())
+
+            log_embed.add_field(name="Muted Member:", value=f"{member.mention}", inline=False)
+            log_embed.set_thumbnail(url=member.avatar)
+
+            await log_channel.send(embed=log_embed)
         else:
             embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
             embed.add_field(name="Mute Member Failed!",
@@ -201,6 +259,11 @@ class Moderation(commands.Cog):
 
         mute_role = discord.utils.get(ctx.guild.roles, name=role[str(ctx.guild.id)])
 
+        with open("cogs/jsonfiles/logs.json", "r") as f:
+            logs = json.load(f)
+
+        log_channel = discord.utils.get(ctx.guild.channels, name=logs[str(ctx.guild.id)])
+
         if mute_role is not None:
             await member.remove_roles(mute_role)
 
@@ -210,6 +273,15 @@ class Moderation(commands.Cog):
                             inline=False)
 
             await ctx.send(embed=embed)
+
+            log_embed = discord.Embed(title="A member has been unmuted in the server!",
+                                      color=discord.Color.blue(),
+                                      timestamp=datetime.utcnow())
+
+            log_embed.add_field(name="Unmuted Member:", value=f"{member.mention}", inline=False)
+            log_embed.set_thumbnail(url=member.avatar)
+
+            await log_channel.send(embed=log_embed)
         else:
             embed = discord.Embed(title="Command Failed!", color=discord.Color.red())
             embed.add_field(name="Mute Member Failed!",
