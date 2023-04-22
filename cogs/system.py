@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 import discord
 from discord.ext import commands
@@ -439,6 +440,27 @@ class System(commands.Cog):
             embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
 
             await ctx.send(embed=embed)
+
+    @commands.command(aliases=["updates", "up"])
+    async def changelogs(self, ctx):
+        """Check out the latest updates in PotatoBot"""
+        embed = discord.Embed(title="Change Logs!",
+                              description="Everything you need to know about v0.0.1a",
+                              color=discord.Color.blue(),
+                              timestamp=datetime.utcnow())
+
+        fields = [("Additions:", "`Added new change logs so you can keep track of all the updates!`", False),
+                  ("Debugs:", "`Fixed a bug where the Gamer role isn't being given upon entry of the server!`", False),
+                  ("Reworks:", "`Reworked the mod commands so they show up on the logs channel upon command entry!`",
+                   False),
+                  ("Removed:", "`Removed the (on_member_join) and (on_member_remove) listeners on logs.`", False)]
+
+        for name, value, inline in fields:
+            embed.add_field(name=name, value=value, inline=inline)
+
+        embed.set_thumbnail(url=ctx.author.avatar)
+
+        await ctx.send(embed=embed)
 
 
 async def setup(client):
