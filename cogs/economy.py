@@ -1,5 +1,6 @@
 import json
 import random
+from datetime import datetime
 
 import discord
 from discord.ext import commands
@@ -442,13 +443,53 @@ class Economy(commands.Cog):
 
             await ctx.send(embed=embed)
 
+    @commands.command()
+    async def shop(self, ctx):
+        """Shop for the items you like"""
+        with open("cogs/jsonfiles/shop.json", "r") as f:
+            shop_data = json.load(f)
+
+        shop_walk(shop_data)
+
+        embed = discord.Embed(title="Command Unavailable!", color=discord.Color.yellow())
+        embed.add_field(name="This command is under construction.",
+                        value="Owner-san is still developing the algorithm and code for this command. It will be available soon.",
+                        inline=False)
+        embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
+
+        await ctx.send(embed=embed)
+
     @commands.command(aliases=["lb"])
     async def leaderboard(self, ctx):
-        """Know who are the richest people in the server"""
+        """Know who are the top 10 richest people in the server"""
         with open("cogs/jsonfiles/economy.json", "r") as f:
             user_eco = json.load(f)
 
-        print(user_eco)
+        dict_walk(user_eco)
+
+        embed = discord.Embed(title="Command Unavailable!", color=discord.Color.yellow())
+        embed.add_field(name="This command is under construction.",
+                        value="Owner-san is still developing the algorithm and code for this command. It will be available soon.",
+                        inline=False)
+        embed.set_thumbnail(url="https://www.iconsdb.com/icons/preview/red/x-mark-3-xxl.png")
+
+        await ctx.send(embed=embed)
+
+def shop_walk(d):
+    for k, v in d.items():
+        if type(v) == dict:
+            print(k)
+            shop_walk(v)
+        else:
+            print(k, ":", v)
+
+def dict_walk(d):
+    for k, v in sorted(d.items()):
+        if type(v) == dict:
+            print(k)
+            shop_walk(v)
+        else:
+            print(k, ":", v)
 
 async def setup(client):
     await client.add_cog(Economy(client))
